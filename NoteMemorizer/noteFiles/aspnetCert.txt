@@ -1,0 +1,249 @@
+﻿~ Caching
+
+* using Microsoft.Extensions.Caching.Distributed, IDistributedCache,
+  cache.GetString("");
+
+  - IDistrubutedCache is an interface that allows you to read and set data
+    stored in a Redis or SQL Server distributed caches
+
+
+
+
+
+~ Language Support
+
+* @Resources.Strings.Title, Global Resources, App_GlobalResources, Strings.resx
+
+* @HttpContext.GetGlobalResourceObject("Strings", "Title");
+
+  - This code accesses the value of the Title resouce key from the Strings
+    resource. The appropriate Strings resource file is loaded based on the
+    value of the Thread.CurrentThread.CurrentUICulture property
+
+* Force a page to display in English, despite localization support
+  - <%@ Page Language="C#" Culture="en-US" UICulture="en-US" %>
+
+
+~ Publishing
+
+* Publish the Application, Test the Application, dotnet publish
+  - dotnet publish works on all .NET Core-supported platforms
+  - dotnet publish, by default, will publish the project in the current dir
+  - msbuild does not work on a mac
+
+
+* Azure Web Role vs Worker Role
+  - https://searchcloudsecurity.techtarget.com/answer/
+    What-is-the-difference-between-web-role-and-worker-role-in-Azure
+
+  - The web role is essentially a Microsoft server running Internet Information
+    Services (IIS) for web applications.
+
+  - A worker role is a Microsoft server that is not running IIS
+
+* .NET Core Hosting Bundle
+
+  - This installs the .NET Core runtime, the .NET Core Library, and the ASP.NET
+    Core module.
+
+  - The ASP.NET Core module is responsible for forwarding HTTP requests from IIS
+    to the ASP.NET Core Application
+
+* Configuring XML files
+<Item Group>
+  <None Update="Clients.xml">
+    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  </None>
+</ItemGroup>
+
+
+* Making an ASP.NET Core web application available as Nuget Package
+
+  - set IsPackable property to true in csproj file
+    - By default, set to false
+
+  - run: "dotnet pack nameOfProject.csproj"
+
+
+
+~ Configuration and Web.Config
+
+* displaying exception details, web.config, server/client
+  - <customErrors mode="RemoteOnly" defaultRedirect="GenericErrorPage.htm">
+    </customErrors>
+
+* deploy to Azure web role, Azure diagnostics, web.config, Trace.WriteLine("");
+  - Writes to ANY trace listeners defined
+  - DiagnosticMonitorTraceListener
+
+* StateServer Session State, web.config validationKey and decryptionKey
+
+* <authentication mode="None"/>
+  - Disables ASP.NET authentication for the application, which is necessary for
+    the application to use the claims-based security token service
+
+
+~ Security
+
+* [Authorize(Policy="SomeTeamCategory")], [Authorize]
+
+  - Can apply to both controller class and its methods individually (class one
+    is default)
+
+  - The [Authorize] Tag (applied to class / class method) allows anyone LOGGED
+    IN to use either (all methods / specific method) (respectively)
+
+  - The OverrideAuthorization attribute indicates that authorization performed
+    at the controller level should be ignored, and that the Authorize attribute
+    applied at the method level should be used instead
+
+
+* public key cryptography, public and private keys
+
+  - a vendorA will sign their own data using their own private key
+    - by signing the data, the vendorA ensures the integrity of its sent data
+
+  - The vendors public key is given to vendorB, and that public key will
+    decrypt the data received from
+
+
+
+* ClaimsPrincipal p = (ClaimsPrincipal)Thread.CurrentPrincipal;
+  bool auth = p.HasClaim("https://wsGovFederation/AgencyName", "Intelligence");
+
+  - An IPrincipal instance represents a user and the user's roles
+
+* IDataProtectionProvider class, CreateProtector method
+  - The CreateProtector method accepts a purpose string as an argument.
+  - Only code that uses the same purpose string can decrypt code that was
+    encrypted with teh same purpose string. That's why email is a good
+    candidate.
+
+* Prent users from registering with other users' email addresses:
+
+  services.AddDefaultIdentity<IdentityUser>(
+    c => c.SignIn.RequireConfirmedEmail = true
+  );
+
+    - Users are required to confirm their email addresses before they are
+      allowed to log on to the application
+
+* ClaimsPrincipal p = HttpContext.Current.User as ClaimsPrincipal;
+  if (principal != null) {
+    foreach (Claim c in p.Claims) {
+      Response.Write("CLAIM TYPE: " + claim.Type + " +
+                      CLAIM VALUE: " + claim.Value + "</br>");
+    }
+  }
+
+
+* Secure Sockets Layer (SSL) prevents eavesdropping by encrypting the
+  communication between the client and the server.
+
+
+~ MVC Views and Markup
+
+* Choosing a specific layout page,
+  Layout="~/Views/Shared/_Layout.Example.cshtml";
+
+* @Html.TextBox("userName", Request["userName"], new { size = 15 })
+
+* @Html.Partial("Header")
+
+* Using a for loop to display partial views:
+
+  @model List<MeasureUp.Models.ExamModel>
+  @foreach (MeasureUp.Models.ExamModel exam in Model) {
+    @Html.Partial("ExamInfo", exam);
+  }
+
+* render strings that contain html (stored in model string properties) as
+  strings and NOT HTML:
+
+  @(new HtmlString(Model.Preview)   OR
+  @Html.Raw(Model.Preview)
+
+
+~ MVC Controllers
+
+* Inheriting a Controller (naming scheme), IActionResult, return View()
+
+  - An inherited controller class should have the "Controller" suffix
+
+  - A controllers method needs NO suffix
+
+  - When you return view(), MVC searches the Views folder for a view with the
+    same name as the action
+
+* Enforcing constraints to routes:
+
+routes.MapRoute(
+  name: "PartRoute",
+  url: "{controller}/{action}/{id}",
+  defaults: new { controller = "Part", action = "Index" },
+  constraints: new { id = @"\d+" }
+);
+  - constraints: new { id = @"[0-9]+" } also works
+  - both are regular expressions that are valid
+
+
+* Controller naming
+var controllerName = context.ActionDescriptor.ControllerName
+  // 'context' is the ControllerContext class object
+
+  - represents the name of the controller as determined from the route
+    parameters when the HTTP request is made
+
+
+* RouteTable.Routes.RouteExistingFiles = true;
+  - by default, ASP.NET routing does not process physical files in the routing
+    pipeline.
+
+* someCustomClass c = new someCustomClass();
+* Route someRoute = new Route("images/{name}", c);
+* RouteTable.Routes.Add("somePath", someRoute);
+
+
+~ MVC Other
+* services.AddMvc().AddRazorPagesOptions(
+    o => o.Conventions.AuthorizeFolder("/Secure")
+  );
+
+
+
+
+
+
+
+
+~ Other
+
+* Health Monitoring
+  - https://docs.microsoft.com/en-us/previous-versions/bb398933(v=vs.140)
+
+* StateServer Session State
+  - https://docs.microsoft.com/en-us/previous-versions/ms178586(v=vs.140)
+
+* FromBody Attribute
+
+* Startup Filters, IStartupFilter, IApplicationBuilder
+
+* Asynchronous Javascript and XML (AJAX) request
+* jsonp is a protocol that dynamically creates a script tag and a function on
+  the page to server as a callback for the data being returned from a service.
+* $.ajax({
+    url:"https://www.measureup.com/GetExams",
+    dataType:"jsonp",
+    success: function(data) {
+        ProcessExams(exams);
+    }
+  });
+
+* less = require("gulp-less");
+* return gulp.src('').pipe(gulp.dest(''));
+
+* Assert.AreEqual(varA, varB);
+
+* HTML 5 video element: If the browser does not natively support the video
+  element or format, the markup between the open and closing tags gets
+  rendered.
