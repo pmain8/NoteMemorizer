@@ -1,0 +1,21 @@
+~ Topic 1
+
+* Question 1
+another line for Question 1, Topic 1
+another line for Question 1, Topic 1
+note: white space is removed in import
+
+* Question 2
+another line for Question 2, Topic 1
+another line for Question 2, Topic 1
+
+~ Topic 2
+
+* Question 1
+another line for Question 1, Topic 2
+another line for Question 1, Topic 2
+
+* Question 2
+another line for Question 2, Topic 2
+another line for Question 2, Topic 2
+

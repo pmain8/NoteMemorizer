@@ -8,48 +8,114 @@ namespace NoteMemorizer
 {
     class Program
     {
-        static void Main(string[] args)
-        {
+        static void Main(string[] args) {
 
+            printTitle();
+
+            string fileName = askFileName();
+            Tester t = loadNotes($"{fileName}");
+
+            printInstructions();
+
+            while (t.exam.getNextQuestion() != false) {
+                askQuestion(t);
+            }
+
+            testComplete();
+        }
+
+
+        public static Tester loadNotes(string fileName) {
+            StringBuilder file = new StringBuilder(fileName);
+            Tester t = new Tester();
+            Console.WriteLine("Loading file...");
+            if (!fileName.Contains('.')) {
+                file.Append(".txt");
+            }
+            bool success = t.parseFile($"{file}");
+            if (!success) { System.Environment.Exit(1); }
+            Console.WriteLine("...success!");
+            return t;
+        }
+
+        public static void printTitle() {
             Console.WriteLine("*---------------------------------------------------------*");
             Console.WriteLine("|   Note Memorizer, a James Cameron Abreu project         |");
             Console.WriteLine("|   Copyright © 2019 - James Cameron Abreu Software Inc.  |");
             Console.WriteLine("*---------------------------------------------------------*");
+            Console.WriteLine();
+            Console.WriteLine();
+        }
 
-            Tester t = new Tester();
-            Console.WriteLine("Loading file...");
-            bool success = t.parseFile("aspnetCert.txt");
-            if (!success) { System.Environment.Exit(1); }
-
-            Console.WriteLine("...success!");
+        public static void printInstructions() {
             Console.WriteLine("Let the learning begin!");
             Console.WriteLine("---------------------------------------------------------------------");
             Console.WriteLine("[Press enter to continue]");
             Console.ReadLine();
-
-            while (t.exam.getNextQuestion() != false) {
-                Console.Clear();
-
-                Console.WriteLine($"Section: {t.exam.currentSection.topic}");
-                Console.WriteLine($"\t{t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()} left");
-                Console.WriteLine();
-                Console.WriteLine($"Question {t.exam.asked} out of {t.exam.totalQuestions}: ");
-                Console.WriteLine(t.exam.currentQuestion.processedQuestion);
-                Console.ReadLine();
-                Console.WriteLine();
-                Console.WriteLine("Answer:");
-                Console.WriteLine(t.exam.currentQuestion.answer);
-                Console.WriteLine();
-                Console.WriteLine();
-            Console.WriteLine("[Press enter to continue]");
-                Console.ReadLine();
-            }
-
-            Console.WriteLine("Thanks for playing!");
-
         }
 
-    }
+        public static void askQuestion(Tester t) {
+            Console.Clear();
+            printTitle();
+            Console.WriteLine($"Section: {t.exam.currentSection.topic}");
+            Console.WriteLine($"\t{t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()} left");
+            Console.WriteLine();
+            Console.WriteLine($"Question {t.exam.asked} out of {t.exam.totalQuestions}: ");
+            Console.WriteLine(t.exam.currentQuestion.processedQuestion);
+            Console.ReadLine();
+            Console.WriteLine();
+            Console.WriteLine("Answer:");
+            Console.WriteLine(t.exam.currentQuestion.answer);
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("[Press enter to continue]");
+            Console.ReadLine();
+        }
+
+        public static void testComplete() {
+            Console.WriteLine("Thanks for playing!");
+        }
+
+
+        public static List<string> getFileNames() {
+            List<string> fileNames = Directory
+                .GetFiles(@"noteFiles\", "*.txt", SearchOption.AllDirectories)
+                .Select(Path.GetFileName)
+                .ToList();
+            return fileNames;
+        }
+
+        public static void listFileNames(List<string> fileNames, int maxListings) {
+            Console.WriteLine("Files loaded in noteFiles directory:");
+            int it = 1;
+            foreach (var name in fileNames) {
+                Console.WriteLine($"\t{name}");
+                it++;
+                if (it > maxListings) break;
+            }
+            if (it > maxListings) {
+                Console.WriteLine("...");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+
+        public static string askFileName() {
+            Console.Clear();
+            printTitle();
+            List<string> fileNames = getFileNames();
+            listFileNames(fileNames, 8);
+            string userInput = null;
+            do {
+                Console.WriteLine("Please enter the name of the file you would like to use for input");
+                Console.Write("File: ");
+                userInput = Console.ReadLine();
+            } while (string.IsNullOrWhiteSpace(userInput));
+            return userInput;
+        }
+
+    } // end main class
+
 
 
     public class Tester
@@ -150,6 +216,7 @@ namespace NoteMemorizer
             public Random r = new Random();
             public string answer { get; set; }
             public string processedQuestion { get; set; }
+            const char REPLACE_CHAR = '-';
 
             public Question(string input)
             {
@@ -167,7 +234,7 @@ namespace NoteMemorizer
                     string[] words = input.Split(splitSymbols);
                     if (words.Length < 2) { return input; }
                     StringBuilder output = new StringBuilder(input);
-                    int amount = Math.Min(words.Length / 5, 3);
+                    int amount = words.Length / 2;
                     const int MAX_TRIES = 100;
                     int tries = 0;
                     int hidden = 0;
@@ -176,11 +243,9 @@ namespace NoteMemorizer
                     {
                         index = r.Next(words.Length);
                         string curWord = words[index];
-                        if (!curWord.Contains("_") && !curWord.Contains("\n") && curWord.Length > 1)
+                        if (!curWord.Contains(REPLACE_CHAR) && !curWord.Contains("\n") && curWord.Length > 1)
                         {
-                            string underscores = "";
-                            foreach (char c in curWord) { underscores += "_"; }
-                            output.Replace(curWord, underscores);
+                            output.Replace(curWord, parseWord(curWord));
                             hidden++;
                         }
                         tries++;
@@ -188,6 +253,25 @@ namespace NoteMemorizer
                     return output.ToString();
                 } // end else
             } // end Parse method
+
+            public string parseWord(string input) {
+                StringBuilder output = new StringBuilder(input);
+                int amount = input.Length / 3;
+                int tries = 0;
+                int hidden = 0;
+                int maxTries = input.Length * 2;
+                int index;
+                while (tries < maxTries && hidden < amount) {
+                    index = r.Next(input.Length);
+                    char curChar = input[index];
+                    if (curChar != REPLACE_CHAR) {
+                        output[index] = REPLACE_CHAR;
+                        hidden++;
+                    }
+                    tries++;
+                }
+                return output.ToString();
+            }
 
         } // end question class
 
