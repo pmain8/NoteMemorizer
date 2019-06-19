@@ -13,9 +13,18 @@ namespace NoteMemorizer
             bool playAgain;
             do {
                 printTitle();
-
-                string fileName = askFileName();
-                Tester t = loadNotes($"{fileName}");
+                Tester t;
+                bool foundFile;
+                do {
+                    string fileName = askFileName();
+                    t = loadNotes($"{fileName}", out foundFile);
+                    if (!foundFile) {
+                        Console.WriteLine("\nCould not find file specified.");
+                        Console.WriteLine("Please choose a file listed or copy desired text file to 'noteFiles' directory");
+                        Console.WriteLine("Press enter to continue...");
+                        Console.ReadLine();
+                    }
+                } while (!foundFile);
 
                 printInstructions();
 
@@ -28,7 +37,7 @@ namespace NoteMemorizer
         }
 
 
-        public static Tester loadNotes(string fileName) {
+        public static Tester loadNotes(string fileName, out bool foundFile) {
             StringBuilder file = new StringBuilder(fileName);
             Tester t = new Tester();
             Console.WriteLine("Loading file...");
@@ -36,8 +45,14 @@ namespace NoteMemorizer
                 file.Append(".txt");
             }
             bool success = t.parseFile($"{file}");
-            if (!success) { System.Environment.Exit(1); }
-            Console.WriteLine("...success!");
+            if (!success) {
+                foundFile = false;
+                Console.WriteLine("...failure :(");
+            }
+            else {
+                foundFile = true;
+                Console.WriteLine("...success!");
+            }
             return t;
         }
 
@@ -51,8 +66,8 @@ namespace NoteMemorizer
         }
 
         public static void printInstructions() {
+            Console.WriteLine();
             Console.WriteLine("Let the learning begin!");
-            Console.WriteLine("---------------------------------------------------------------------");
             Console.WriteLine("[Press enter to continue]");
             Console.ReadLine();
         }
@@ -212,10 +227,6 @@ namespace NoteMemorizer
             } // end try
             catch (Exception e)
             {
-                Console.WriteLine("Could not complete parse");
-                Console.Write(e.Message);
-                Console.WriteLine(e.InnerException);
-                Console.WriteLine(e.StackTrace);
                 return false;
             }
 
