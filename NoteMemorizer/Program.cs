@@ -10,18 +10,21 @@ namespace NoteMemorizer
     {
         static void Main(string[] args) {
 
-            printTitle();
+            bool playAgain;
+            do {
+                printTitle();
 
-            string fileName = askFileName();
-            Tester t = loadNotes($"{fileName}");
+                string fileName = askFileName();
+                Tester t = loadNotes($"{fileName}");
 
-            printInstructions();
+                printInstructions();
 
-            while (t.exam.getNextQuestion() != false) {
-                askQuestion(t);
-            }
+                while (t.exam.getNextQuestion() != false) {
+                    askQuestion(t);
+                }
 
-            testComplete();
+                playAgain = testComplete(t);
+            } while (playAgain);
         }
 
 
@@ -72,8 +75,19 @@ namespace NoteMemorizer
             Console.ReadLine();
         }
 
-        public static void testComplete() {
+        public static bool testComplete(Tester t) {
+            Console.Clear();
+            printTitle();
             Console.WriteLine("Thanks for playing!");
+            string answer;
+            do {
+                Console.WriteLine();
+                Console.WriteLine("Would you like to play again? (yes/no)");
+                Console.Write("Your response: ");
+                answer = Console.ReadLine();
+            } while (!answer.ToLower().Contains('y') && !answer.ToLower().Contains('n'));
+            if (answer.ToLower().Contains('y')) return true;
+            else return false;
         }
 
 
