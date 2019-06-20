@@ -26,6 +26,8 @@ namespace NoteMemorizer
                     }
                 } while (!foundFile);
 
+                askType(t);
+
                 printInstructions();
 
                 while (t.exam.getNextQuestion() != false) {
@@ -79,6 +81,7 @@ namespace NoteMemorizer
             Console.WriteLine($"\t{t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()} left");
             Console.WriteLine();
             Console.WriteLine($"Question {t.exam.asked} out of {t.exam.totalQuestions}: ");
+            Console.WriteLine();
             Console.WriteLine(t.exam.currentQuestion.processedQuestion);
             Console.ReadLine();
             Console.WriteLine();
@@ -143,6 +146,31 @@ namespace NoteMemorizer
             return userInput;
         }
 
+        public static void askType(Tester t) {
+            bool goodKey;
+            string key;
+            Console.Clear();
+            printTitle();
+            Console.WriteLine("Which type of test will you take?");
+            Console.WriteLine("\t[1] Keywords Partial (words indicated in txt file will be partially hidden)");
+            Console.WriteLine("\t[2] Keywords Full (words indicated in txt file will be fully hidden)");
+            Console.WriteLine("\t[3] Full Random (all words in answer will be randomly hidden)");
+            Console.WriteLine();
+            do {
+                Console.Write("Your choice: ");
+                key = Console.ReadLine();
+                goodKey = (key == "1" || key == "2" || key == "3");
+                if (!goodKey) {
+                    Console.WriteLine();
+                    Console.WriteLine("Please provide your choice by entering 1, 2, or 3 on your keyboard");
+                }
+            } while (!goodKey);
+            int keyNum = int.Parse(key);
+            t.type = (Tester.testType)keyNum;
+            return;
+        }
+
+
     } // end main class
 
 
@@ -150,22 +178,29 @@ namespace NoteMemorizer
     public class Tester
     {
 
-        const string QUESTION_SYMBOL = "*";
+        public enum testType { keywordsPartial, kewordsFull, fullRandom }
+        public testType type = testType.keywordsPartial;
+
+        const string QUESTION_SYMBOL = "#";
+        const string ANSWER_SYMBOL = "*";
         const string TOPIC_SYMBOL = "~";
 
         public Exam exam = new Exam();
 
         public bool isSymbol(string word)
         {
-            if (isQuestion(word))
+            if (isAnswer(word))
                 return true;
             else if (isTopic(word))
+                return true;
+            else if (isQuestion(word))
                 return true;
             else
                 return false;
         }
 
         public bool isQuestion(string word) { return (word == QUESTION_SYMBOL); }
+        public bool isAnswer(string word) { return (word == ANSWER_SYMBOL); }
         public bool isTopic(string word) { return (word == TOPIC_SYMBOL); }
 
         public bool parseFile(string fileName) {
@@ -173,8 +208,9 @@ namespace NoteMemorizer
             try
             {
                 string[] lines = System.IO.File.ReadAllLines($@"noteFiles\{fileName}");
-                string curTopic = "ERR";
+                string curSection = "~ Unsorted / Miscellaneous"; // just in case user forgets first section
                 string curQuestion = "";
+                string curAnswer = "";
                 foreach (string line in lines)
                 {
                     if (!String.IsNullOrWhiteSpace(line)) {
@@ -192,36 +228,70 @@ namespace NoteMemorizer
 
                         // TOPIC:
                         if (isTopic(firstWordLine)) {
-                            curTopic = line; // the whole line
+                            curSection = line; // the whole line
                             exam.addSection(line); // only adds if didn't exist
 
                             // wrap up previous question:
-                            if (curQuestion.Length > 0) {
-                                exam.addQuestion(curTopic, curQuestion);
+                            if (curQuestion.Length > 0 && curAnswer.Length > 0) {
+                                exam.addQuestion(curSection, curQuestion, curAnswer);
+                                curAnswer = "";
                                 curQuestion = "";
                             }
                         } // end topic
 
-                        // QUESTION:
+                        // QUESTION
                         else if (isQuestion(firstWordLine)) {
                             if (curQuestion.Length > 0) {
-                                exam.addQuestion(curTopic, curQuestion);
-                                curQuestion = $"{line}\n";
+                                if (curAnswer.Length > 0) {
+                                    exam.addQuestion(curSection, curQuestion, curAnswer);
+                                    curAnswer = "";
+                                    curQuestion = $"{line}\n";
+                                }
+                                else {
+                                    // no answer to previous question,
+                                    // ignore previous question
+                                    curQuestion = $"{line}\n";
+                                }
                             }
                             else {
+                                curQuestion = $"{line}\n";
+                            }
+                        }
+
+                        // ANSWER:
+                        else if (isAnswer(firstWordLine)) {
+                            // We don't want more than one answer per question,
+                            // However, extra lines can be added to answers
+                            if (curQuestion.Length > 0) {
+                                if (curAnswer.Length == 0) {
+                                    curAnswer = $"{line}\n";
+                                }
+                                else {
+                                    curAnswer += $"\n{line}\n";
+                                }
+                            }
+                        } // end answer
+
+                        // OTHER
+                        else {
+
+                            // first try to add extra lines to answer
+                            if (curAnswer.Length > 0) {
+                                curAnswer += $"{line}\n";
+                            }
+
+                            // if not, try to add it to the question
+                            else if (curQuestion.Length > 0) {
                                 curQuestion += $"{line}\n";
                             }
-                        } // end question
-
-                        // Neither a question or a topic (trail from previous question):
-                        else { curQuestion += $"{line}\n"; }
+                        }
 
                     } //end if line is not blank
                 } // end foreach
 
                 // Finalize (any left over questions?)
-                if (curQuestion.Length > 0) {
-                    exam.addQuestion(curTopic, curQuestion);
+                if (curAnswer.Length > 0) {
+                    exam.addQuestion(curSection, curQuestion, curAnswer);
                 }
 
             } // end try
@@ -243,10 +313,10 @@ namespace NoteMemorizer
             public string processedQuestion { get; set; }
             const char REPLACE_CHAR = '-';
 
-            public Question(string input)
+            public Question(string question, string _answer)
             {
-                answer = input;
-                processedQuestion = Parse(input);
+                answer = _answer;
+                processedQuestion = $"{question}\n\n{Parse(_answer)}";
             }
 
             public string Parse(string input)
@@ -259,7 +329,7 @@ namespace NoteMemorizer
                     string[] words = input.Split(splitSymbols);
                     if (words.Length < 2) { return input; }
                     StringBuilder output = new StringBuilder(input);
-                    int amount = words.Length / 2;
+                    int amount = (int)(words.Length * 0.75);
                     const int MAX_TRIES = 100;
                     int tries = 0;
                     int hidden = 0;
@@ -370,10 +440,10 @@ namespace NoteMemorizer
             }
 
 
-            public void addQuestion(string section, string question)
+            public void addQuestion(string section, string question, string answer)
             {
                 if (!sections.ContainsKey(section)) { addSection(section); }
-                Question q = new Question(question);
+                Question q = new Question(question, answer);
                 sections[section].add(q);
                 totalQuestions++;
             }
