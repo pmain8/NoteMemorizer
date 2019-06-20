@@ -1,0 +1,59 @@
+
+
+
+
+
+
+~ Compatibility
+
+# You are designing an HTML5 website. You need to design the interface to make
+  the content of the web page viewable in all types of browsers, including
+  voice recognition software, screen readers, and reading pens. What should you do?
+
+* Annotate HTML5 content elements with Accessible Rich Internet Application (ARIA) attributes.
+* Ensure that HTML5 content elements have valid and descriptive names.
+* Use HTML5 semantic markup elements to enhance the pages.
+
+
+
+
+~ Deploy and Publishing
+
+# You are developing an ASP.NET MVC web application in Visual Studio 2012. The
+  application requires several thousand content files. All content is hosted on
+  the same IIS instance as the application. You detect performance issues when
+  the application starts. You need to resolve the performance issues.
+
+* Combine the content files by using ASP.NET MVC bundling
+
+
+
+
+
+
+~ Tests and Unit Testing
+
+# You are authoring unit tests.
+  The unit tests must test code that consumes sealed classes.
+  You need to create, maintain, and inject dependencies in the unit tests.
+  Which isolation method should you use?
+
+* Shim types
+
+
+
+
+~ State and Sessions
+
+# You are developing an ASP.NET MVC news aggregation application that will be
+  deployed to servers on multiple networks. The application must be compatible
+  with multiple browsers. A user can search the website for news articles. You
+  must track the page number that the user is viewing in search results. You
+  need to program the location for storing state information about the user's
+  search. What should you do?
+
+* Use QueryString to store search terms and page index
+
+
+
+

@@ -1,21 +1,51 @@
 ~ Topic 1
 
-* Question 1
-another line for Question 1, Topic 1
-another line for Question 1, Topic 1
-note: white space is removed in import
+# Question1
+  extra line for Q1
 
-* Question 2
-another line for Question 2, Topic 1
-another line for Question 2, Topic 1
+* Answer1 for Question1
+  extra line for A1, Q1
+  extra line for A1, Q1
+
+* Answer2 for Question1
+  extra line for A2, Q1
+  extra line for A2, Q1
+  extra line for A2, Q1
+
+# Question2
+  extra line for Q2
+  extra line for Q2
+  extra line for Q2
+
+* Answer1 for Question2
+  extra line for A1, Q2
+  extra line for A1, Q2
+
+* Answer2 for Question2
+  extra line for A2, Q2
+
 
 ~ Topic 2
 
-* Question 1
-another line for Question 1, Topic 2
-another line for Question 1, Topic 2
+* Answer1 for Question1
+  extra line for A1, Q1
+  extra line for A1, Q1
 
-* Question 2
-another line for Question 2, Topic 2
-another line for Question 2, Topic 2
+* Answer2 for Question1 ---BAD---
+  extra line for A2, Q1
+  extra line for A2, Q1
+  extra line for A2, Q1
+
+# Question2
+  extra line for Q2
+  extra line for Q2
+  extra line for Q2
+
+* Answer1 for Question2
+  extra line for A1, Q2
+  extra line for A1, Q2
+
+* Answer2 for Question2 ---BAD---
+  extra line for A2, Q2
+
 

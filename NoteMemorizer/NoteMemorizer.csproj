@@ -1,17 +1,25 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <ApplicationIcon />
     <StartupObject />
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
+    <None Update="noteFiles\70486.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="noteFiles\aspnetCert.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
