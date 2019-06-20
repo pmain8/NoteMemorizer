@@ -1,0 +1,54 @@
+
+~ Topic
+# Question
+* Answer
+[anything else = extra line for answer]
+
+-----------------------
+~ can be followed by:
+
+	~		--> BAD, no questions/answers in section
+	
+	#		--> normal
+	
+	*		--> BAD, no question
+	
+	[]		--> BAD, no question or answer
+
+
+
+-----------------------
+# can be followed by:
+
+	~		-->	BAD, no answer to question
+	
+	#		--> BAD, no answer to question
+	
+	*		--> normal
+	
+	[]		--> normal, add line to QUESTION
+
+
+-----------------------
+* can be followed by:
+
+	~		-->	normal
+	
+	#		--> normal
+	
+	*		--> OKAY, acts like [], add this line to previous question
+	
+	[]		--> normal, add line to ANSWER
+
+
+
+-----------------------
+[extra line] can be followed by:
+
+	~		-->	normal
+	
+	#		--> normal
+	
+	*		--> normal
+	
+	[]		--> normal
