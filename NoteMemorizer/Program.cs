@@ -26,7 +26,6 @@ namespace NoteMemorizer
                     }
                 } while (!foundFile);
 
-                askType(t);
 
                 printInstructions();
 
@@ -42,6 +41,7 @@ namespace NoteMemorizer
         public static Tester loadNotes(string fileName, out bool foundFile) {
             StringBuilder file = new StringBuilder(fileName);
             Tester t = new Tester();
+            askType(t);
             Console.WriteLine("Loading file...");
             if (!fileName.Contains('.')) {
                 file.Append(".txt");
@@ -149,8 +149,8 @@ namespace NoteMemorizer
         public static void askType(Tester t) {
             bool goodKey;
             string key;
-            Console.Clear();
-            printTitle();
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Which type of test will you take?");
             Console.WriteLine("\t[1] Keywords Partial (words indicated in txt file will be partially hidden)");
             Console.WriteLine("\t[2] Keywords Full (words indicated in txt file will be fully hidden)");
@@ -166,7 +166,7 @@ namespace NoteMemorizer
                 }
             } while (!goodKey);
             int keyNum = int.Parse(key);
-            t.type = (Tester.testType)keyNum;
+            t.setExamType((Tester.testType)keyNum);
             return;
         }
 
@@ -178,12 +178,12 @@ namespace NoteMemorizer
     public class Tester
     {
 
-        public enum testType { keywordsPartial, kewordsFull, fullRandom }
-        public testType type = testType.keywordsPartial;
+        public enum testType { keywordsPartial = 1, kewordsFull = 2, fullRandom = 3 }
 
         const string QUESTION_SYMBOL = "#";
         const string ANSWER_SYMBOL = "*";
         const string TOPIC_SYMBOL = "~";
+        const string KEYWORD_SYMBOL = "^";
 
         public Exam exam = new Exam();
 
@@ -202,6 +202,12 @@ namespace NoteMemorizer
         public bool isQuestion(string word) { return (word == QUESTION_SYMBOL); }
         public bool isAnswer(string word) { return (word == ANSWER_SYMBOL); }
         public bool isTopic(string word) { return (word == TOPIC_SYMBOL); }
+
+        public void setExamType(testType _type) {
+            if (exam != null) {
+                exam.examType = _type;
+            }
+        }
 
         public bool parseFile(string fileName) {
 
@@ -313,15 +319,23 @@ namespace NoteMemorizer
             public string processedQuestion { get; set; }
             const char REPLACE_CHAR = '-';
 
-            public Question(string question, string _answer)
+            public Question(string question, string _answer, testType tt)
             {
                 answer = _answer;
-                processedQuestion = $"{question}\n\n{Parse(_answer)}";
+                switch (tt) {
+                    case testType.kewordsFull:
+                    case testType.keywordsPartial:
+                        processedQuestion = $"{question}\n\n{ParseKeyword(_answer, tt)}";
+                        break;
+
+                    case testType.fullRandom:
+                    default:
+                        processedQuestion = $"{question}\n\n{ParseFullRandom(_answer)}";
+                        break;
+                }
             }
 
-            public string Parse(string input)
-            {
-
+            public string ParseFullRandom(string input) {
                 if (input.Length < 10) { return input; }
                 else
                 {
@@ -338,28 +352,51 @@ namespace NoteMemorizer
                     {
                         index = r.Next(words.Length);
                         string curWord = words[index];
-                        if (!curWord.Contains(REPLACE_CHAR) && !curWord.Contains("\n") && curWord.Length > 1)
+                        if (!curWord.Contains(REPLACE_CHAR) && curWord.Length > 1)
                         {
-                            output.Replace(curWord, parseWord(curWord));
+                            output.Replace(curWord, partialReplace(curWord));
                             hidden++;
                         }
                         tries++;
                     }
                     return output.ToString();
                 } // end else
-            } // end Parse method
+            }
+            public string ParseKeyword(string input, testType tt) {
+                if (input.Length < 10) { return input; }
+                else
+                {
+                    char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/' };
+                    string[] words = input.Split(splitSymbols);
+                    if (words.Length < 2) { return input; }
+                    StringBuilder output = new StringBuilder(input);
+                    foreach (string curWord in words)
+                    {
+                        if (!curWord.Contains(REPLACE_CHAR) && curWord.Length > 1 && curWord.Contains(KEYWORD_SYMBOL))
+                        {
+                            if (tt == testType.kewordsFull)
+                                output.Replace(curWord, fullReplace(curWord));
+                            else
+                                output.Replace(curWord, partialReplace(curWord));
+                        }
+                    }
+                    return output.ToString();
+                } // end else
+            }
 
-            public string parseWord(string input) {
+
+            public string partialReplace(string input) {
+                if (input.Length <= 3) return input;
                 StringBuilder output = new StringBuilder(input);
-                int amount = input.Length / 3;
+                int amount = (int)(input.Length * 0.65);
                 int tries = 0;
                 int hidden = 0;
                 int maxTries = input.Length * 2;
                 int index;
                 while (tries < maxTries && hidden < amount) {
-                    index = r.Next(input.Length);
+                    index = r.Next(1, input.Length);
                     char curChar = input[index];
-                    if (curChar != REPLACE_CHAR) {
+                    if (curChar != REPLACE_CHAR && curChar != '\n') {
                         output[index] = REPLACE_CHAR;
                         hidden++;
                     }
@@ -367,6 +404,18 @@ namespace NoteMemorizer
                 }
                 return output.ToString();
             }
+
+            public string fullReplace(string input) {
+                if (input.Length <= 3) return input;
+                StringBuilder output = new StringBuilder(input);
+                for (int i = 1; i < input.Length; i++) {
+                    if (output[i] != '\n') // don't replace newline chars
+                        output[i] = REPLACE_CHAR;
+                }
+                return output.ToString();
+            }
+
+
 
         } // end question class
 
@@ -423,6 +472,7 @@ namespace NoteMemorizer
             public int totalQuestions { get; set; }
 
             public int asked { get; set; }
+            public testType examType { get; set; }
 
             public Exam()
             {
@@ -443,7 +493,7 @@ namespace NoteMemorizer
             public void addQuestion(string section, string question, string answer)
             {
                 if (!sections.ContainsKey(section)) { addSection(section); }
-                Question q = new Question(question, answer);
+                Question q = new Question(question, answer, this.examType);
                 sections[section].add(q);
                 totalQuestions++;
             }

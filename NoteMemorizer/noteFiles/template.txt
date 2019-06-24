@@ -4,18 +4,18 @@
   extra line for Q1
 
 * Answer1 for Question1
-  extra line for A1, Q1
-  extra line for A1, Q1
+  extra line for A1, Q1, words with ^ get ^hidden in 'keyword' ^modes
+  extra ^line for A1, Q1
 
 * Answer2 for Question1
   extra line for A2, Q1
-  extra line for A2, Q1
-  extra line for A2, Q1
+  extra ^line for A2, Q1
+  extra line for A2, ^Q1
 
 # Question2
   extra line for Q2
-  extra line for Q2
-  extra line for Q2
+  ^extra line for Q2
+  ^extra line for Q2
 
 * Answer1 for Question2
   extra line for A1, Q2

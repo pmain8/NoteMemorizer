@@ -10,9 +10,9 @@
   the content of the web page viewable in all types of browsers, including
   voice recognition software, screen readers, and reading pens. What should you do?
 
-* Annotate HTML5 content elements with Accessible Rich Internet Application (ARIA) attributes.
+* Annotate HTML5 content elements with Accessible Rich Internet Application (^ARIA) attributes.
 * Ensure that HTML5 content elements have valid and descriptive names.
-* Use HTML5 semantic markup elements to enhance the pages.
+* Use HTML5 ^semantic markup elements to enhance the pages.
 
 
 
@@ -24,7 +24,7 @@
   the same IIS instance as the application. You detect performance issues when
   the application starts. You need to resolve the performance issues.
 
-* Combine the content files by using ASP.NET MVC bundling
+* Combine the content files by using ASP.NET MVC ^bundling
 
 
 
@@ -38,7 +38,7 @@
   You need to create, maintain, and inject dependencies in the unit tests.
   Which isolation method should you use?
 
-* Shim types
+* ^Shim types
 
 
 
@@ -52,7 +52,7 @@
   need to program the location for storing state information about the user's
   search. What should you do?
 
-* Use QueryString to store search terms and page index
+* Use ^QueryString to store search terms and page index
 
 
 
