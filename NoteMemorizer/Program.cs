@@ -66,7 +66,6 @@ namespace NoteMemorizer
             Console.WriteLine("|   Copyright © 2019 - James Cameron Abreu Software Inc.  |");
             Console.WriteLine("*---------------------------------------------------------*");
             Console.WriteLine();
-            Console.WriteLine();
         }
 
         public static void printInstructions() {
@@ -79,19 +78,20 @@ namespace NoteMemorizer
         public static void askQuestion(Tester t) {
             Console.Clear();
             printTitle();
-            Console.WriteLine($"Section: {t.exam.currentSection.topic}");
-            Console.WriteLine($"\t{t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()} left");
+            string trimmedSectionName = (t.exam.currentSection.topic).Replace(Tester.TOPIC_SYMBOL, "");
+            Console.WriteLine($"\tSECTION: {trimmedSectionName}");
+            Console.WriteLine($"\t\t[{t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()} left]");
+            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine($"Question {t.exam.asked} out of {t.numQuestionsDesired}: ");
             Console.WriteLine();
             string trimmedQuestion = (t.exam.currentQuestion.processedQuestion).Replace(Tester.KEYWORD_SYMBOL, "");
             Console.WriteLine(trimmedQuestion);
             Console.ReadLine();
+            Console.WriteLine("[ANSWER]:");
             Console.WriteLine();
-            Console.WriteLine("Answer:");
             string trimmedAnswer = (t.exam.currentQuestion.answer).Replace(Tester.KEYWORD_SYMBOL, "");
             Console.WriteLine(trimmedAnswer);
-            Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("[Press enter to continue]");
             Console.ReadLine();
@@ -184,16 +184,17 @@ namespace NoteMemorizer
             Console.WriteLine();
             Console.WriteLine("Which type of test will you take?");
             Console.WriteLine("\t[1] Keywords Partial (words indicated in txt file will be partially hidden)");
-            Console.WriteLine("\t[2] Keywords Full (words indicated in txt file will be fully hidden)");
-            Console.WriteLine("\t[3] Full Random (all words in answer will be randomly hidden)");
+            Console.WriteLine("\t[2] Keywords Full Blank (words indicated in txt file will be fully hidden)");
+            Console.WriteLine("\t[3] Keywords First Letters (only first few letters revealed, the rest hidden)");
+            Console.WriteLine("\t[4] Full Random (all words in answer will be randomly hidden)");
             Console.WriteLine();
             do {
                 Console.Write("Your choice: ");
                 key = Console.ReadLine();
-                goodKey = (key == "1" || key == "2" || key == "3");
+                goodKey = (key == "1" || key == "2" || key == "3" || key == "4");
                 if (!goodKey) {
                     Console.WriteLine();
-                    Console.WriteLine("Please provide your choice by entering 1, 2, or 3 on your keyboard");
+                    Console.WriteLine("Please provide your choice by entering 1, 2, 3, or 4 on your keyboard");
                 }
             } while (!goodKey);
             int keyNum = int.Parse(key);
@@ -209,7 +210,7 @@ namespace NoteMemorizer
     public class Tester
     {
 
-        public enum testType { keywordsPartial = 1, kewordsFull = 2, fullRandom = 3 }
+        public enum testType { keywordsPartial = 1, kewordsFull = 2, fullRandom = 4, keywordsFirstLetters = 3 }
 
         public static string QUESTION_SYMBOL = "#";
         public static string ANSWER_SYMBOL = "*";
@@ -358,6 +359,7 @@ namespace NoteMemorizer
                 switch (tt) {
                     case testType.kewordsFull:
                     case testType.keywordsPartial:
+                    case testType.keywordsFirstLetters:
                         processedQuestion = $"{question}\n\n{ParseKeyword(_answer, tt)}";
                         break;
 
@@ -409,8 +411,12 @@ namespace NoteMemorizer
                         {
                             if (tt == testType.kewordsFull)
                                 output.Replace(curWord, fullReplace(curWord));
-                            else
+                            else if (tt == testType.keywordsPartial)
                                 output.Replace(curWord, partialReplace(curWord));
+                            else if (tt == testType.keywordsFirstLetters)
+                                output.Replace(curWord, firstFewLettersOnly(curWord));
+                            else
+                                output.Replace(curWord, "ERROR 101");
                         }
                     }
                     return output.ToString();
@@ -442,6 +448,17 @@ namespace NoteMemorizer
                 if (input.Length <= 3) return input;
                 StringBuilder output = new StringBuilder(input);
                 for (int i = 1; i < input.Length; i++) {
+                    if (output[i] != '\n') // don't replace newline chars
+                        output[i] = REPLACE_CHAR;
+                }
+                return output.ToString();
+            }
+
+            public string firstFewLettersOnly(string input) {
+                if (input.Length <= 3) return input;
+                int startPos = (int)(input.Length / 3);
+                StringBuilder output = new StringBuilder(input);
+                for (int i = 1 + startPos; i < input.Length; i++) {
                     if (output[i] != '\n') // don't replace newline chars
                         output[i] = REPLACE_CHAR;
                 }
