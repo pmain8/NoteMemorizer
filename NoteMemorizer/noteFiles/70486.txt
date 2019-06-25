@@ -3,79 +3,144 @@
 
 
 
+~ MVC Specific
 
-~ Compatibility
+  # You are developing an ASP.NET MVC application. The application has a view
+    that displays a list of orders in a multi-select list box. You need to enable
+    users to select multiple orders and submit them for processing. What should
+    you do? (drag and drop)
 
-# You are designing an HTML5 website. You need to design the interface to make
-  the content of the web page viewable in all types of browsers, including
-  voice recognition software, screen readers, and reading pens. What should you do?
-
-* Annotate HTML5 content elements with Accessible Rich Internet Application (^ARIA) attributes.
-* Ensure that HTML5 content elements have valid and descriptive names.
-* Use HTML5 ^semantic markup elements to enhance the pages.
-
-# You are designing an HTML5 website. You need to design the interface such
-  that the content is viewable in all types of browsers, including screen
-  readers. What should you do?
-  (Each correct answer presents a complete solution. Choose all that apply.)
-
-* Use ^HTML5 ^semantic markup elements.
-* Annotate content elements with ^Accessible ^Rich ^Internet ^Application (ARIA) attributes.
+    * Create a custom [ ^model ^binder ]
+    * retrieve selected values from the [ ^binding ^context ]
 
 
+  # You are developing an ASP.NET MVC application that provides instant messaging
+    capabilities to customers. You have the following requirements:
+
+    - Messages must be able to be sent and received simultaneously.
+    - Latency and unnecessary header data must be eliminated.
+    - The application must comply with HTML5 standards.
+
+    You need to design the application to meet the requirements.
+    What should you do?
+
+    * Instantiate a ^MessageChannel object on the client
+
+  # You are developing an ASP.NET MVC application that uses forms
+    authentication against a third-party database. You need to authenticate the
+    users.
+
+    * public class SAMembershipProvider : ^MembershipProvider
+
+  # You are designing an MVC web application. The view must be as simple as
+    possible for designers who do not have a technical background. You need to
+    combine two existing models to meet the requirement. Which component of the
+    MVC framework should you use?
+      - View
+      - ViewModel
+      - Controller
+      - Model
+
+    * ^ViewModel
+
+
+
+
+
+
+~ Compatibility and Language
+
+  # You are designing an HTML5 website. You need to design the interface to make
+    the content of the web page viewable in all types of browsers, including
+    voice recognition software, screen readers, and reading pens. What should you do?
+
+    * Annotate HTML5 content elements with Accessible Rich Internet Application (^ARIA) attributes.
+    * Ensure that HTML5 content elements have valid and descriptive names.
+    * Use HTML5 ^semantic markup elements to enhance the pages.
+
+  # You are designing an HTML5 website. You need to design the interface such
+    that the content is viewable in all types of browsers, including screen
+    readers. What should you do?
+    (Each correct answer presents a complete solution. Choose all that apply.)
+
+    * Use ^HTML5 ^semantic markup elements.
+    * Annotate content elements with ^Accessible ^Rich ^Internet ^Application (ARIA) attributes.
+
+  # You are designing a localized ASP.NET MVC online shopping application that
+    will be deployed to customers in the United States, China, France, and
+    Brazil. The application must support multiple cultures so that content in
+    the appropriate language is available in each area. You need to ensure that
+    the content can be viewed in several languages. How should you implement
+    this feature?
+
+    * Use a ^resource (.^resx) file to provide translations
 
 
 
 ~ Deploy, Publishing, and Azure
 
-# You are developing an ASP.NET MVC web application in Visual Studio 2012. The
-  application requires several thousand content files. All content is hosted on
-  the same IIS instance as the application. You detect performance issues when
-  the application starts. You need to resolve the performance issues.
+  # You are developing an ASP.NET MVC web application in Visual Studio 2012. The
+    application requires several thousand content files. All content is hosted on
+    the same IIS instance as the application. You detect performance issues when
+    the application starts. You need to resolve the performance issues.
 
-* Combine the content files by using ASP.NET MVC ^bundling
+    * Combine the content files by using ASP.NET MVC ^bundling
 
-# You are designing a distributed application that runs on the Microsoft Azure
-  platform. The application must store a small amount of information that is
-  shared cross all users and does not change frequently. You need to configure
-  the application to meet the requirements. Which server-side state management
-  option should you use? (Each correct answer presents a complete solution.
-  Choose all that apply.)
+  # You are designing a distributed application that runs on the Microsoft Azure
+    platform. The application must store a small amount of information that is
+    shared cross all users and does not change frequently. You need to configure
+    the application to meet the requirements. Which server-side state management
+    option should you use?
 
-* ^SQL Database
+    * ^SQL Database
+
+  # You are designing an enterprise-level Windows Communication Foundation
+    (WCF) application. User accounts will migrate from the existing system. The
+    new system must be able to scale to accommodate the increasing load. You
+    need to ensure that the application can handle large-scale role changes.
+    What should you use for authorization? (Each correct answer presents a
+    complete solution.)
+
+    * ^Identity - based approach
+    * ^Role - based approach
 
 
+  # You are designing an enterprise-level Windows Communication Foundation
+    (WCF) application. User accounts will migrate from the existing system. The
+    new system must be able to scale to accommodate the increasing load. The
+    new servers are experiencing significant stress under load of large-scale
+    role changes. You need to ensure that the application can handle the
+    stress. Which authorizations should you redesign? (Each correct answer
+    presents a complete solution.
 
-
+    * ^Role - based approach
+    * ^Resource - based trusted subsystem model
 
 
 
 ~ Error Handling and Unit Testing
 
-# You are authoring unit tests.
-  The unit tests must test code that consumes sealed classes.
-  You need to create, maintain, and inject dependencies in the unit tests.
-  Which isolation method should you use?
+  # You are authoring unit tests.
+    The unit tests must test code that consumes sealed classes.
+    You need to create, maintain, and inject dependencies in the unit tests.
+    Which isolation method should you use?
 
-* ^Shim types
+    * ^Shim types
 
-# You are testing an ASP.NET application.
-  The test plan requires that tests run against the application's business layer.
-  You need to use the test project template that meets this requirement.
-  Which template should you use?
+  # You are testing an ASP.NET application.
+    The test plan requires that tests run against the application's business layer.
+    You need to use the test project template that meets this requirement.
+    Which template should you use?
 
-* ^Unit Test Project
+    * ^Unit Test Project
 
-# You are developing an ASP.NET MVC application by using Visual Studio 2012.
-  The application throws and handles exceptions when it runs.
-  You need to examine the state of the application when exceptions are thrown.
-  What should you do?
+  # You are developing an ASP.NET MVC application by using Visual Studio 2012.
+    The application throws and handles exceptions when it runs.
+    You need to examine the state of the application when exceptions are thrown.
+    What should you do?
 
-* From the Debug menu in Visual Studio 2012, select Exceptions.
-  (enable/disable?) ^Enable the ^thrown check box for Common Language Runtime Exceptions.
-
-
-
+    * From the Debug menu in Visual Studio 2012, select Exceptions.
+      ^Enable (enable/disable?) the ^thrown check box for Common Language Runtime Exceptions.
 
 
 
@@ -83,120 +148,217 @@
 
 ~ State and Sessions
 
-# You are developing an ASP.NET MVC news aggregation application that will be
-  deployed to servers on multiple networks. The application must be compatible
-  with multiple browsers. A user can search the website for news articles. You
-  must track the page number that the user is viewing in search results. You
-  need to program the location for storing state information about the user's
-  search. What should you do?
+  # You are developing an ASP.NET MVC news aggregation application that will be
+    deployed to servers on multiple networks. The application must be compatible
+    with multiple browsers. A user can search the website for news articles. You
+    must track the page number that the user is viewing in search results. You
+    need to program the location for storing state information about the user's
+    search. What should you do?
 
-* Use ^QueryString to store search terms and page index
+    * Use ^QueryString to store search terms and page index
 
-# You are developing an ASP.NET MVC application. The application is deployed in
-  a web farm and is accessed by many users. The application must handle web
-  server failures gracefully. The servers in the farm must share the short-term
-  state information. You need to persist the application state during the
-  session. What should you implement?
+  # You are developing an ASP.NET MVC application. The application is deployed in
+    a web farm and is accessed by many users. The application must handle web
+    server failures gracefully. The servers in the farm must share the short-term
+    state information. You need to persist the application state during the
+    session. What should you implement?
 
-* A ^state ^server
-
-
-# You are developing an ASP.NET MVC application that will be deployed to
-  servers on multiple networks. The application must be compatible with
-  multiple browsers. You must track the page number that the user is viewing in
-  search results. You need to program the location for storing state
-  information. Where should you persist state information?
-
-* ^QueryString
+    * A ^state ^server
 
 
+  # You are developing an ASP.NET MVC application that will be deployed to
+    servers on multiple networks. The application must be compatible with
+    multiple browsers. You must track the page number that the user is viewing in
+    search results. You need to program the location for storing state
+    information. Where should you persist state information?
+
+    * ^QueryString
+
+  # You are designing a distributed banking application that handles multiple
+    customers. A user may log on to the site to perform activities such as
+    checking balances, performing transactions, and other activities that must be
+    done securely. The application must store secure information that is specific
+    to an individual user. The data must be automatically and securely purged
+    when the user logs off. You need to save transient information in a secure
+    data store. Which data store should you use?
+
+    * NET ^session state
+      - ASP.NET ^session state enables you to store and retrieve values for a user
+        as the user navigates ASP.NET pages in a Web application.
+
+  # You are developing an application that uses many small images for various
+    aspects of the interface. The application responds slowly when additional
+    resources are being accessed. You need to improve the performance of the
+    application. What should you do?
+
+    * Host all images on an ^alternate ^server and provide a ^CDN
 
 
+  # You are designing a distributed application. The application must store
+    secure information that is specific to an individual user. The data must be
+    automatically purged when the user logs off. You need to save transient
+    information in a secure data store. Which data store should you use?
 
+    * ^Session state
+    * ASP.NET ^session state enables you to store and retrieve values for a user
+      as the user navigates ASP.NET pages in a Web application.
 
+  # You are developing an ASP.NET MVC application in a web farm. The
+    application has a page that accepts a customers order, processes it, and
+    then redirects the browser to a page where the order is displayed along
+    with the shipping information. The order information should be available
+    only to the page where the order is displayed. You need to store state and
+    configure the application. What should you do?
+
+    * Store state in [ ^inProc ] and set the mode attribute of
+      the sessionState element in the web.config file to [ ^ViewData ]
 
 
 
 
 ~ Data Storage and Databases
 
-# You are developing an ASP.NET MVC news aggregation application that will be
-  deployed to servers on multiple networks. The application must be compatible
-  with multiple browsers. A user can search the website for news articles. You
-  must track the page number that the user is viewing in search results. You
-  need to program the location for storing state information about the user's
-  search. What should you do?
+  # You are developing an ASP.NET MVC news aggregation application that will be
+    deployed to servers on multiple networks. The application must be compatible
+    with multiple browsers. A user can search the website for news articles. You
+    must track the page number that the user is viewing in search results. You
+    need to program the location for storing state information about the user's
+    search. What should you do?
 
-* Use ^QueryString to store search terms and page index
-
-
-# You are developing an ASP.NET MVC application. The application is deployed in
-  a web farm and is accessed by many users. The application must handle web
-  server failures gracefully. The servers in the farm must share the state
-  information. You need to persist the application state during the session.
-  What should you implement?
-
-* ^state server
-
-# You are developing an ASP.NET MVC application that displays stock market
-  information. The stock market information updates frequently and must be
-  displayed in real-time. You need to eliminate unnecessary header data,
-  minimize latency, and transmit data over a full-duplex connection. What
-  should you do?
-
-* Implement ^WebSockets protocol on the client and the server.
-
-# You are designing a distributed application. The application must store a
-  small amount of insecure global information that does not change frequently.
-  You need to configure the application to meet the requirements. Which
-  server-side state management option should you use?
-
-  (Each correct answer presents a complete solution. Choose all that apply.)
-
-* ^Application state
-* ^Database support
+    * Use ^QueryString to store search terms and page index
 
 
+  # You are developing an ASP.NET MVC application. The application is deployed in
+    a web farm and is accessed by many users. The application must handle web
+    server failures gracefully. The servers in the farm must share the state
+    information. You need to persist the application state during the session.
+    What should you implement?
 
+    * ^state server
 
+  # You are developing an ASP.NET MVC application that displays stock market
+    information. The stock market information updates frequently and must be
+    displayed in real-time. You need to eliminate unnecessary header data,
+    minimize latency, and transmit data over a full-duplex connection. What
+    should you do?
+
+    * Implement ^WebSockets protocol on the client and the server.
+
+  # You are designing a distributed application. The application must store a
+    small amount of insecure global information that does not change frequently.
+    You need to configure the application to meet the requirements. Which
+    server-side state management option should you use?
+
+    (Each correct answer presents a complete solution. Choose all that apply.)
+
+    * ^Application state
+    * ^Database support
+
+  # You are designing a data-oriented application that features a variety of
+    storage schemas. The application object model must be mapped to the various
+    storage schemas. You need to enable developers to manipulate the data. Which
+    ADO.NET data access strategy should you use? (Each correct answer presents a
+    complete solution. Choose all that apply.)
+
+    * ^LINQ to ^SQL
+    * ^Entity ^Framework
+    * ^DataAdapter
 
 
 
 
 ~ Security, Authentication, and Validation
 
-# You are developing an ASP.NET MVC application. You need to authenticate
-  clients by using NT LAN Manager (NTLM). Which authentication method should
-  you implement?
+  # You are developing an ASP.NET MVC application. You need to authenticate
+    clients by using NT LAN Manager (NTLM). Which authentication method should
+    you implement?
 
-* ^Windows
-
-
-# You are developing an ASP.NET MVC application. The application must allow
-  users to enter JavaScript in a feedback text box only. You need to disable
-  request validation. What should you do?
-
-* Use the ^HttpRequest.Unvalidated property to read the unvalidated form value.
-
-  - The ^HttpRequest.Unvalidated property gets the HTTPrequest values without
-    triggering request validation.
+    * ^Windows
 
 
-# You are developing an ASP.NET MVC application that will be deployed on a web
-  farm. Passwords must be stored in the web.config file and must not be
-  readable or in a format that is easily decodable You need to encrypt the
-  passwords that are stored in the web.config file. Which command-line tool
-  should you use?
+  # You are developing an ASP.NET MVC application. The application must allow
+    users to enter JavaScript in a feedback text box only. You need to disable
+    request validation. What should you do?
 
-* ^Aspnet_regiis.exe
+    * Use the ^HttpRequest.Unvalidated property to read the unvalidated form value.
 
-# You are developing an ASP.NET MVC application that will be deployed on a web
-  farm. Passwords must be stored in the web.config file and must not be
-  readable or in a format that is easily decodable. You need to encrypt the
-  passwords that are stored in the web.config file. Which command-line tool
-  should you use?
+      - The ^HttpRequest.Unvalidated property gets the HTTPrequest values without
+        triggering request validation.
 
-* ^Aspnet_regiis.exe
+
+  # You are developing an ASP.NET MVC application that will be deployed on a web
+    farm. Passwords must be stored in the web.config file and must not be
+    readable or in a format that is easily decodable You need to encrypt the
+    passwords that are stored in the web.config file. Which command-line tool
+    should you use?
+
+    * ^Aspnet_regiis.exe
+
+  # You are developing an ASP.NET MVC application that will be deployed on a web
+    farm. Passwords must be stored in the web.config file and must not be
+    readable or in a format that is easily decodable. You need to encrypt the
+    passwords that are stored in the web.config file. Which command-line tool
+    should you use?
+
+    * ^Aspnet_regiis.exe
+
+  # You are developing an ASP.NET MVC application that uses forms authentication
+    to verify that the user is logged in. Authentication credentials must be
+    encrypted and secure so no user identity is exposed. You need to ensure that
+    user credentials are persisted after users log on. Where should you store the
+    credentials? (Each correct answer presents a complete solution.
+
+    * In ^Session on the server
+    * In a ^cookie stored on the ^browser
+
+  # You are developing an ASP.NET MVC application that uses forms
+    authentication. The application uses SQL queries that display customer
+    order data. Logs show there have been several malicious attacks against the
+    servers. You need to prevent all SQL injection attacks from malicious users
+    against the application. How should you secure the queries?
+
+    * Implement ^parameterization of all ^input strings
+
+
+  # You are developing an ASP.NET MVC application to be used on the Internet.
+    The environment uses Active Directory with delegation to access secure
+    resources. Users must be able to log on to the application to maintain
+    their personal preferences. You need to use the least amount of development
+    effort to enable users to log on. What should you do?
+
+    * Enable ^Windows Authentication
+
+
+
+
+
+~ Tools and Assemblies
+
+  # You are developing an application that supports multiple cultures. The
+    application must store localized content in satellite assemblies. You need to
+    build the satellite assemblies. Which tool should you use?
+
+    * ^AI.exe
+      - Use the ^Assembly ^Linker (^Al.exe) to compile .resources files into
+        satellite assemblies. Al.exe creates an assembly from the .resources files
+        that you specify.
+
+
+  # You are preparing for the deployment of an ASP.NET MVC application. You need
+    to generate a deployment manifest. Which command-line tool should you use?
+
+    * ^Mage.exe
+      - The ^Manifest ^Generation and ^Editing Tool (Mage.exe) is a command-line tool
+        that supports the creation and editing of application and deployment
+        manifests.
+
+  # You are using the features of the IIS SEO Toolkit to configure the website.
+    You need to exclude search engines from indexing parts of website. What
+    should you do?
+
+    * Use the ^Robalts ^Exclusion feature in the IIS ...
+    * Search Engine Optimization Toolkit to create a ^robots.txt ...
+    * file and add ^disallow rules
 
 
 
