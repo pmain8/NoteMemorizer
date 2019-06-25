@@ -155,21 +155,23 @@ namespace NoteMemorizer
             printTitle();
             Console.WriteLine();
             Console.WriteLine($"This test contains {t.exam.totalQuestions} questions.");
+            Console.WriteLine();
             Console.WriteLine($"How many would you like to learn?");
-            Console.WriteLine($"\t* Enter '0' for all");
-            Console.WriteLine($"\t* Otherwise provide how many");
+            Console.WriteLine($"\t* Press [enter] for all");
+            Console.WriteLine($"\t* Otherwise [enter a number] and press [enter]");
             Console.WriteLine();
             int num = t.exam.totalQuestions; // default
             string userInput = null;
-            bool parseSuccess = false;
+            bool parseSuccess = true;
             do {
                 Console.WriteLine();
                 Console.Write("Your choice: ");
                 userInput = Console.ReadLine();
-                parseSuccess = int.TryParse(userInput, out num);
-            } while (string.IsNullOrWhiteSpace(userInput) || !parseSuccess || (num > t.exam.totalQuestions) || (num < 0) );
+                if (!string.IsNullOrWhiteSpace(userInput))
+                    parseSuccess = int.TryParse(userInput, out num);
+            } while (!parseSuccess || (num > t.exam.totalQuestions) || (num < 1) );
 
-            if (num <= 0)
+            if (num <= 0 || string.IsNullOrWhiteSpace(userInput))
                 num = t.exam.totalQuestions;
 
             t.numQuestionsDesired = num;
