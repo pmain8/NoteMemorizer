@@ -44,6 +44,131 @@
     * ^ViewModel
 
 
+  # You need to enable client-side validation for an ASP.NET MVC application.
+    Which three actions should you perform? Each correct answer presents part
+    of the solution.
+
+    * Reference the ^jquery , ^jquery.^validate , and
+      ^jquery.^validate.^unobtrusive script files in the view
+
+    * Open the ^web.config file at the project root, and set the values of
+      the ^ClientValidationEnable and ^UnobtrusiveJavascriptEnabled keys to true
+
+    * Add ^data ^annotations to the model properties that the view uses
+
+
+  # You develop an ASP.NET MVC application. The application has a controller
+    named PeopleController.cs. The controller has an action method that returns
+    a parent view. The parent view includes the following code. Line numbers
+    are included for the reference only.
+
+    01  @model PartialView.Models.PersonViewModel
+    02  @{
+    03    ViewBag.Title = "People";
+    04  }
+    05  <div>
+    06    <h1>People</h1>
+    07  </div>
+    08  <div>
+    09        // [insert code here]
+    10  </div>
+
+    * @{ Html.^RenderPartial("People", Model); }
+                OR
+    * @{ Html.^Partial("People", Model) }
+
+
+  # You are developing an ASP.NET MVC application that uses forms
+    authentication against an Oracle database. You need to authenticate the
+    users. Which code segment should you use?
+
+    * public class OracleMembershipProvider : ^MembershipProvider {
+        // ...
+      }
+
+
+  # You plan a new ASP. NET MVC application. The application uses the
+    Model-View Controller (MVC) pattern to separate the modeling of the domain,
+    the presentation, and the actions. This separation is based on user input
+    into three separate classes. You need to diagram the structural
+    relationship between the three classes.
+    What should you do?
+
+*                   .---------------.
+      .-------------|  ^Controller   |
+      |             .---------------.
+      +                     |
+.-------------.             |
+|  ^Model      |             |
+.-------------.             |
+      +                     +
+      |             .---------------.
+      .-------------|    ^View       |
+                    .---------------.
+
+
+
+  # The application includes the following method.
+    (Line numbers are included for reference only.)
+    When users attempt to retrieve a product from the product page, a run-time
+    exception occurs if the product does not exist. You need to route the
+    exception to the CustomException.aspx page.
+
+    01  public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+    02  {
+    03     filters.Add(new HandlerErrorAttribute
+    04     {
+    05        // [ CODE HERE ]
+    06     });
+    07  }
+
+    * ExceptionType = typeof(^NullReferenceException), ^View = ''CustomCustomException''
+
+
+
+  # You are developing an ASP.NET MVC web application. You need to create a
+    form that can be used to add new products to the web application. You have
+    the following markup:
+
+    <h2>Add Product</h2>
+      [ TARGET 1 ]
+        <table>
+          <tr>
+            <td>Product name:</td>
+            [ TARGET 2 ]
+          </tr>
+          <tr>
+            <td>Price:</td>
+            [ TARGET 3]
+          </tr>
+          <tr>
+            <td></td>
+            <td>[TARGET 4]</td>
+          </tr>
+        </table>
+      </form>
+
+    Which markup segments should you include in Target 1, Target 2, Target 3
+    and Target 4 to complete the markup?
+
+    * [ TARGET 1] = <form action="/Products/Create" method="^post">
+    * [ TARGET 2] = <td>@^Html.TextBox(@Model.^ProductName)</td>
+    * [ TARGET 3] = <td>@^Html.TextBox(@Model.^UnitPrice)</td>
+    * [ TARGET 4] = <input type="^submit" value="Save"/>
+
+
+
+  # Customers download videos by using HTTP clients that support various
+    content encodings. You need to configure caching on the DownloadVideo
+    action to maximize performance. Which attribute should you add?
+
+    * [OutputCache(
+        ^Location = OutputCacheLocation.^Downstream,
+        VaryByParam = "^videoId",
+        VaryByContentEncoding = "gzip; q=1.0, compress; q=0.5, q=0"
+      )]
+
+
 
 
 
@@ -64,7 +189,8 @@
     (Each correct answer presents a complete solution. Choose all that apply.)
 
     * Use ^HTML5 ^semantic markup elements.
-    * Annotate content elements with ^Accessible ^Rich ^Internet ^Application (ARIA) attributes.
+    * Annotate content elements with ^Accessible ^Rich ^Internet ^Application
+      (^ARIA) attributes.
 
   # You are designing a localized ASP.NET MVC online shopping application that
     will be deployed to customers in the United States, China, France, and
@@ -74,6 +200,36 @@
     this feature?
 
     * Use a ^resource (.^resx) file to provide translations
+
+
+  # You are developing an ASP.NET MVC application. Devices that use many
+    different browsers will use the application. You have the following
+    requirements:
+      - Content must display correctly when a device is in landscape or
+        portrait orientation.
+      - Content must not scale when the device orientation changes.
+      - Content must be displayed by using the maximum available screen space.
+      - The application must render properly in Internet Explorer 8 or later
+        versions.
+    You need to configure the application.
+    Which two actions should you perform?
+
+    * Set the value of the ^width property for the viewport meta tag to
+      ^device-^width
+    * Use CSS ^media ^queries to target screen size, device orientation, and
+      other browser capabilities
+
+  # You develop an ASP.NET MVC application. The application has several Razor
+    views. The application must execute different server-side code for desktop
+    and mobile devices. You need to choose an approach to support mobile
+    devices. Which two approaches can you use? Each correct answer presents a
+    complete solution.
+
+    * Use different controllers and views for both desktop and mobile browsers,
+      but render the views using the ^Bootstrap framework
+    * Use the same ^controllers for both desktop and mobile browsers,
+      but render different ^views depending on the device type
+
 
 
 
@@ -117,6 +273,77 @@
     * ^Resource - based trusted subsystem model
 
 
+  # You are developing an ASP.NET MVC application that will run on Azure. The
+    application uses Event Tracing for Windows (ETW) for logging operations.
+    You need to retrieve the ETW data for the application from a deployed Azure
+    instance by using the Azure Diagnostics API. Which data source should you
+    use?
+
+    * .NET ^EventSource
+
+
+  # You are developing an Azure worker role. You enable crash dump collection
+    for the role. When the role starts, an external application stops
+    responding. You need to download the crash dump to determine why the
+    application stops responding. From which two locations can you download the
+    crash dump? Each correct answer presents a complete solution.
+
+    * ^Azure ^Blob storage
+
+    * the ^DiagnosticStore local resource folder on the ^virtual ^machine that is running the role instance
+
+
+  # You are developing an application that uses many small images. When the
+    images load, the application runs slowly. You need to improve the
+    performance of the application. What should you do?
+
+    * ^Combine all the images into a ^single ^image and use ^CSS to create sprites
+
+
+  # You are developing a new ASP.NET MVC application that will be hosted on
+    Microsoft Azure. You need to implement caching. The caching solution must
+    support the following:
+      - The cache must be able to store out-of-process ASP.NET session state.
+      - The cache must be able to store a variety of data types.
+      - The cache must offer a large amount of space for cached content.
+      - You must be able to share output cache content across web server instances.
+    You need to select a cache solution.
+    Which caching solution should you choose?
+
+    * Azure ^Redis Cache
+
+
+  # You are developing an ASP.NET application that allows users to download
+    Microsoft Azure log files. You need to improve the performance of the
+    application. What should you do?
+
+    * ^Bundle the content files into a single .^tar file
+      - ^Bundling is a new feature in ASP.NET 4.5 that makes it easy to combine
+        or ^bundle multiple files into a single file.
+
+
+  # You are developing an ASP.NET application. You need to minimize the amount
+    of data in ALL HTTP responses. What should you do?
+
+    * Enable ^compression in IIS
+
+
+  # You are designing a distributed application. The application must store a
+    small amount of information that is shared across all users and does not
+    change frequently. You need to configure the application to meet the
+    requirements. Which server-side state management options will achieve the
+    goal? Each correct answer presents a complete solution.
+
+    * ^Database ^support
+    * ^Application state
+
+
+
+
+
+
+
+
 
 ~ Error Handling and Unit Testing
 
@@ -141,6 +368,73 @@
 
     * From the Debug menu in Visual Studio 2012, select Exceptions.
       ^Enable (enable/disable?) the ^thrown check box for Common Language Runtime Exceptions.
+
+  # You are building an ASP.NET web application.
+    You must test the web application in multiple browsers at the same time.
+    You need to ensure that the application can use the Browser Link feature.
+    Which two actions should you perform? Each correct answer presents part of the solution.
+
+    * In the ^web.config file, set the value of the ^debug attribute to false
+    * Enable ^Browser link
+
+
+
+  # You are building an ASP.NET application for a purchasing system.
+    The application has a method named CalculateBalance in the Purchasing class.
+    You need to create a unit test for the CalculateBalance method.
+    Which five actions should you perform in sequence?
+
+    * 1. Select the Purchasing project and add a new ^Unit ^Test project
+      2. Add the ^TestClass attribute to the test class and the ^TestMethod
+         attribute to the CalculateBalance method. Add an ^Assert statement for
+         each value that you are testing.
+      3. ^Build the solution
+      4. Run all tests
+      5. ^Debug the solution
+
+
+  # You are developing an ASP.NET MVC application. The application uses a set
+    of custom exceptions to log errors that occur during the execution of an
+    action. You need to develop a class that implements logging. Which
+    interface should you implement?
+
+    * ^IExceptionFilter
+
+
+
+  # You are developing an ASP.NET MVC application. The application includes the
+    following method. Line numbers are included for reference only.
+
+    01  private string GenerateMessage(string userAgent)
+    02  {
+    03    // [CODE HERE]
+    04    if (userAgent.ToLower().Contains("bot"))
+    05    {
+    06      return "Web crawlers prohibited";
+    07    }
+    08    return "Unknown browser";
+    09  }
+
+    The application calls the GenerateMessage method before displaying each
+    page. The GenerateMessage method throws NullReferenceException exceptions.
+    You need to use Code Contracts to prevent the exceptions. Which code
+    segment should you insert at line 03?
+
+    * Contract.^Requires(userAgent != null);
+
+
+  # You are developing an ASP.NET application that runs on Windows Server 2012.
+    An exception is preventing a page from rendering. You need to view the
+    trace information for the page. Which two actions should you perform? Each
+    correct answer presents part of the solution.
+
+    * Load the ^trace.axd page from the root of the website
+    * Add the following markup segment to the web.config file: <trace ^enabled = "true" />
+
+
+
+
+
 
 
 
@@ -212,6 +506,24 @@
 
     * Store state in [ ^inProc ] and set the mode attribute of
       the sessionState element in the web.config file to [ ^ViewData ]
+
+
+  # You are developing an ASP.NET MVC application that will be hosted on
+    Microsoft Azure. The application includes the StackExchange.Redis client
+    package. A variable named CacheConnectionConfiguration stores the cache
+    endpoint URL and the password to connect to the cache.
+      - The application must store a user's color selection by using the Azure
+        Redis cache.
+      - The cached value must expire after 90 minutes. You need to cache the
+        user's color selection.
+    How should you complete the relevant code?
+
+    * private static void CacheColorSelection(string colorSelection) {
+        var connection = ConnectionMultiplexer.Connect(CacheConnectionConfiguration);
+        var cache = connection.^GetDatabase();
+        cache StringSet("color", colorSelection, ^TimeSpan.^FromMinutes(90));
+      }
+
 
 
 
@@ -321,12 +633,64 @@
 
 
   # You are developing an ASP.NET MVC application to be used on the Internet.
-    The environment uses Active Directory with delegation to access secure
+    The environment USES Active Directory with delegation to access secure
     resources. Users must be able to log on to the application to maintain
     their personal preferences. You need to use the least amount of development
     effort to enable users to log on. What should you do?
 
     * Enable ^Windows Authentication
+
+
+  # You are developing an ASP.NET MVC application that uses forms
+    authentication. The application uses SQL queries that display customer
+    order data. You need to prevent all SQL injection attacks against the
+    application. How should you secure the queries?
+
+    * Implement ^parameterization
+
+
+  # You are developing an ASP.NET MVC application to be used on the Internet.
+    The environment DOES NOT use Active Directory. Users must be able to log on
+    to the application to maintain their personal preferences. You need to use
+    the least amount of development effort to enable users to log on. What
+    should you do?
+
+    * Enable ^Forms authentication
+
+
+  # You are developing an ASP.NET MVC application that will run in a shared
+    environment. The application requests the user's password, and then uses
+    the password to sign data. You need to minimize the potential for the
+    password to be discovered by other processes that run in the shared
+    environment. What should you do?
+
+    * Run the code that processes the password in its own ^AppDomain
+      - ^Application ^domains provide a unit of isolation for the common
+        language runtime.
+
+
+  # You are developing an ASP.NET MVC application. You need to authenticate
+    clients by using an ASP.NET membership database. Which authentication
+    method should you implement?
+
+    * ^Forms
+
+
+
+
+~ WIF (Windows Identity Foundation)
+
+  # You develop an ASP.NET MVC application. The application is configured for
+    claims-based authentication by using Windows Identity Foundation (WIF). You
+    need to access the claims in the WIF token. Which code segment should you
+    use?
+
+    * ((^IClaimsPrincipal)Thread.CurrentPrincipal).Identities[0].^Claims;
+
+
+
+
+
 
 
 
@@ -360,6 +724,74 @@
     * Search Engine Optimization Toolkit to create a ^robots.txt ...
     * file and add ^disallow rules
 
+
+  # You create an ASP.NET MVC application.
+    You host the application by using the Open Web Interface for .NET (OWIN).
+    You run the following command by using the NuGet Package Manager console:
+      install-package Microsoft.AspNet.SignalR
+    You plan to implement real-time push notifications from the server using
+    ASP.NET SignalR.
+    You need to complete the ASP.NET SignalR implementation.
+    Which three steps should you perform?
+
+    * Create a ^hub class to push content to clients
+
+    * Use the ^SignalR ^jQuery library in a web page to send messages to
+      the ^hub and display updates from the ^hub
+
+    * Map a ^SignalR ^hub to the app builder pipeline by using
+      an ^OWIN startup class
+
+  # You are developing an ASP.NET MVC application that will be deployed on
+    local Internet Information Services (IIS) servers and on an Azure Web Role.
+    You must log events for the application when it is deployed locally and on
+    Azure. You must not deploy additional services. You need to implement a
+    logging solution. Which two technologies can you use?
+
+    * ^event ^log
+    * ^trace
+
+
+
+  # You develop an ASP.NET MVC application. The application includes a web
+    application configuration file that contains sensitive information. You
+    need to encrypt the sensitive information.
+    Which tool should you use?
+
+    * ^aspnet_regis.exe
+      - You can use the ASP.NET ^IIS ^Registration Tool (^aspnet_regiis.exe) to
+        encrypt or decrypt sections of a Web configuration file.
+
+
+  # You are maintaining an ASP.NET MVC application that runs on Azure. Remote
+    debugging is enabled for this role, but the input endpoints for remote
+    debugging have been removed for security reasons. You do not have
+    permission to view the Azure Portal for this deployment. You can log on by
+    using Remote Desktop Protocol (RDP). You must attach the input endpoints to
+    enable remote debugging. You need to add the input endpoints to enable
+    remote debugging. Which file should you modify?
+
+    * E:\<^GUID>.^csman
+
+
+
+~ Reports and Business Logic
+
+  # You deploy an ASP.NET MVC Web application to Internet Information Services
+    (IIS). The application has a secure area that provides access to custom
+    reports. You must develop custom business logic to support the reports. The
+    custom business logic has the following requirements:
+      - It must run each time that a report is requested.
+      - It must not run for other IIS requests.
+      - It must be mapped to the request extension of the report.
+      - It must be written by using a managed language that is supported by the .NET framework.
+      - You must be able to quickly modify and deploy updates to the business logic.
+    You need to develop the custom business logic.
+    What should you do?
+
+    * Develop a new ^HTTP handler that includes the custom business logic.
+
+    * Deploy the HTTP *handler to IIS
 
 
 

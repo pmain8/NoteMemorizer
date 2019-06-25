@@ -1,38 +1,37 @@
 ~ Topic 1
 
-# Question1
-  extra line for Q1
+  # Question1
+    extra line for Q1
 
-* Answer1 for Question1
-  Note: words with ^ get hidden in 'keyword' modes
-  example: the answer to the question is ^here
-(‘here’ will be hidden)
+    * Answer1 for Question1
+      Note: words with ^ get hidden in 'keyword' modes
+      Example: the answer to the question is ^here
+(‘here’ will be hidden in keyword modes)
 
-* Answer2 for Question1
-  extra line for A2, Q1
-  extra ^line for A2, Q1
+    * Answer2 for Question1
+      Note: you can have multiple keywords in one answer:
+      Example: The answers are ^green and ^blue
+(‘green’ and ‘blue’ will be hidden in keyword modes)
 
-# Question2
-  extra line for Q2
-  ^extra line for Q2
-  ^extra line for Q2
+  # Question2
+    extra line for Q2
+    [etc…]
 
-* Answer1 for Question2
-  extra line for A1, Q2
-  extra line for A1, Q2
+    * Answer1 for Question2
+      extra line for A1, Q2
+      [etc…]
 
-* Answer2 for Question2
-  extra line for A2, Q2
+    * Answer2 for Question2
+      extra line for A2, Q2
+      [etc…]
 
 
 ~ Topic 2
+  # Question1
 
-* Answer1 for Question1
-  extra line for A1, Q1
-  extra line for A1, Q1
+    *  Answer1 for Question1
+      extra line for A1, Q1
+      [etc…]
 
-* Answer2 for Question1
-  extra line for A2, Q1
-  extra line for A2, Q1
-  extra line for A2, Q1
+[ETC…]
 
