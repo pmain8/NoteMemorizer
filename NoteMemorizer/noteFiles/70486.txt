@@ -31,7 +31,7 @@
 
 
 
-~ Tests and Unit Testing
+~ Error Handling and Unit Testing
 
 # You are authoring unit tests.
   The unit tests must test code that consumes sealed classes.
@@ -39,6 +39,21 @@
   Which isolation method should you use?
 
 * ^Shim types
+
+# You are testing an ASP.NET application.
+  The test plan requires that tests run against the application's business layer.
+  You need to use the test project template that meets this requirement.
+  Which template should you use?
+
+* ^Unit Test Project
+
+# You are developing an ASP.NET MVC application by using Visual Studio 2012.
+  The application throws and handles exceptions when it runs.
+  You need to examine the state of the application when exceptions are thrown.
+  What should you do?
+
+* From the Debug menu in Visual Studio 2012, select Exceptions.
+  (enable/disable?) ^Enable the ^thrown check box for Common Language Runtime Exceptions.
 
 
 
@@ -53,6 +68,21 @@
   search. What should you do?
 
 * Use ^QueryString to store search terms and page index
+
+
+
+~ Data Storage and Databases
+
+# You are developing an ASP.NET MVC news aggregation application that will be
+  deployed to servers on multiple networks. The application must be compatible
+  with multiple browsers. A user can search the website for news articles. You
+  must track the page number that the user is viewing in search results. You
+  need to program the location for storing state information about the user's
+  search. What should you do?
+
+* Use ^QueryString to store search terms and page index
+
+
 
 
 
