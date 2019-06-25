@@ -1,0 +1,64 @@
+-- HOW TO USE: NoteMemorizer, By James Cam Abreu --
+(inspired by studying for MCSD certification exams)
+
+•	MCSD format: lots of questions that 
+  -	involve keywords 
+  -	names of programs or functions
+  -	involves a lot of rote-memorization
+	
+
+•	examtopics.com/exams/microsoft
+  -	More accurate than other sources for MCSD
+  -	Has all tests for MCSD
+	
+
+•	Note taking
+  -	Taking notes manually instead of just looking at questions can help us
+  	remember better
+  -	The process of organizing notes: more to come
+	
+
+•	Note Memorizer Application:
+  1.	download (github.com/JamCamAbreu/NoteMemorizer)
+
+  2.	build in Visual Studio
+
+  3.	Create, copy-in note text file into noteFiles folder (in bin, not source)
+    -	if you want to debug your notes: put in source noteFiles folder, and in
+    	the properties of that text file make sure to select "Copy always" from
+      the "Copy to Output Directory" Build action	  
+
+  4. Double check note notation (look at template included in source)
+
+  5. Run console app, follow instructions
+    -	if you don't see your file listed, check to make sure you copied it into
+    	the bin's noteFiles folder, or (see about debugging above)
+
+
+•	Recommended Study Pattern:
+  1.	Read each question carefully on examtopics.com. Try to answer the
+      question as best you can.
+
+  2.	Reveal the answer, see if you were correct
+
+  3.	Think about what kind of broad category this question could be organized
+      into (helps your mind package away questions into topics, makes it easier to
+      remember)
+
+  4.	If that topic doesn’t exist, create it in your Note-Memorizer notes 
+      (use ~ for topic)
+
+  5.	Copy and paste the question to your Note-Memorizer notes as a question
+      (use # for question)
+
+  6.	Instead of copying, manually type out the answer into your notes 
+      (use * for answer)
+
+  7.	After combing the examtopics website, go through the Note-Memorizer test
+      several times, first starting with partial-keyword, and then doing
+      full-keyword.
+
+  8.	Once confident, go back to examtopics, and see how much more accurately
+      and quickly you can pass the test.
+
+
