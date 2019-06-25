@@ -84,11 +84,13 @@ namespace NoteMemorizer
             Console.WriteLine();
             Console.WriteLine($"Question {t.exam.asked} out of {t.numQuestionsDesired}: ");
             Console.WriteLine();
-            Console.WriteLine(t.exam.currentQuestion.processedQuestion);
+            string trimmedQuestion = (t.exam.currentQuestion.processedQuestion).Replace(Tester.KEYWORD_SYMBOL, "");
+            Console.WriteLine(trimmedQuestion);
             Console.ReadLine();
             Console.WriteLine();
             Console.WriteLine("Answer:");
-            Console.WriteLine(t.exam.currentQuestion.answer);
+            string trimmedAnswer = (t.exam.currentQuestion.answer).Replace(Tester.KEYWORD_SYMBOL, "");
+            Console.WriteLine(trimmedAnswer);
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine("[Press enter to continue]");
@@ -209,10 +211,10 @@ namespace NoteMemorizer
 
         public enum testType { keywordsPartial = 1, kewordsFull = 2, fullRandom = 3 }
 
-        const string QUESTION_SYMBOL = "#";
-        const string ANSWER_SYMBOL = "*";
-        const string TOPIC_SYMBOL = "~";
-        const string KEYWORD_SYMBOL = "^";
+        public static string QUESTION_SYMBOL = "#";
+        public static string ANSWER_SYMBOL = "*";
+        public static string TOPIC_SYMBOL = "~";
+        public static string KEYWORD_SYMBOL = "^";
 
         public Exam exam = new Exam();
 

@@ -14,10 +14,19 @@
 * Ensure that HTML5 content elements have valid and descriptive names.
 * Use HTML5 ^semantic markup elements to enhance the pages.
 
+# You are designing an HTML5 website. You need to design the interface such
+  that the content is viewable in all types of browsers, including screen
+  readers. What should you do?
+  (Each correct answer presents a complete solution. Choose all that apply.)
+
+* Use ^HTML5 ^semantic markup elements.
+* Annotate content elements with ^Accessible ^Rich ^Internet ^Application (ARIA) attributes.
 
 
 
-~ Deploy and Publishing
+
+
+~ Deploy, Publishing, and Azure
 
 # You are developing an ASP.NET MVC web application in Visual Studio 2012. The
   application requires several thousand content files. All content is hosted on
@@ -25,6 +34,16 @@
   the application starts. You need to resolve the performance issues.
 
 * Combine the content files by using ASP.NET MVC ^bundling
+
+# You are designing a distributed application that runs on the Microsoft Azure
+  platform. The application must store a small amount of information that is
+  shared cross all users and does not change frequently. You need to configure
+  the application to meet the requirements. Which server-side state management
+  option should you use? (Each correct answer presents a complete solution.
+  Choose all that apply.)
+
+* ^SQL Database
+
 
 
 
@@ -58,6 +77,10 @@
 
 
 
+
+
+
+
 ~ State and Sessions
 
 # You are developing an ASP.NET MVC news aggregation application that will be
@@ -68,6 +91,30 @@
   search. What should you do?
 
 * Use ^QueryString to store search terms and page index
+
+# You are developing an ASP.NET MVC application. The application is deployed in
+  a web farm and is accessed by many users. The application must handle web
+  server failures gracefully. The servers in the farm must share the short-term
+  state information. You need to persist the application state during the
+  session. What should you implement?
+
+* A ^state ^server
+
+
+# You are developing an ASP.NET MVC application that will be deployed to
+  servers on multiple networks. The application must be compatible with
+  multiple browsers. You must track the page number that the user is viewing in
+  search results. You need to program the location for storing state
+  information. Where should you persist state information?
+
+* ^QueryString
+
+
+
+
+
+
+
 
 
 
@@ -83,6 +130,73 @@
 * Use ^QueryString to store search terms and page index
 
 
+# You are developing an ASP.NET MVC application. The application is deployed in
+  a web farm and is accessed by many users. The application must handle web
+  server failures gracefully. The servers in the farm must share the state
+  information. You need to persist the application state during the session.
+  What should you implement?
+
+* ^state server
+
+# You are developing an ASP.NET MVC application that displays stock market
+  information. The stock market information updates frequently and must be
+  displayed in real-time. You need to eliminate unnecessary header data,
+  minimize latency, and transmit data over a full-duplex connection. What
+  should you do?
+
+* Implement ^WebSockets protocol on the client and the server.
+
+# You are designing a distributed application. The application must store a
+  small amount of insecure global information that does not change frequently.
+  You need to configure the application to meet the requirements. Which
+  server-side state management option should you use?
+
+  (Each correct answer presents a complete solution. Choose all that apply.)
+
+* ^Application state
+* ^Database support
+
+
+
+
+
+
+
+
+~ Security, Authentication, and Validation
+
+# You are developing an ASP.NET MVC application. You need to authenticate
+  clients by using NT LAN Manager (NTLM). Which authentication method should
+  you implement?
+
+* ^Windows
+
+
+# You are developing an ASP.NET MVC application. The application must allow
+  users to enter JavaScript in a feedback text box only. You need to disable
+  request validation. What should you do?
+
+* Use the ^HttpRequest.Unvalidated property to read the unvalidated form value.
+
+  - The ^HttpRequest.Unvalidated property gets the HTTPrequest values without
+    triggering request validation.
+
+
+# You are developing an ASP.NET MVC application that will be deployed on a web
+  farm. Passwords must be stored in the web.config file and must not be
+  readable or in a format that is easily decodable You need to encrypt the
+  passwords that are stored in the web.config file. Which command-line tool
+  should you use?
+
+* ^Aspnet_regiis.exe
+
+# You are developing an ASP.NET MVC application that will be deployed on a web
+  farm. Passwords must be stored in the web.config file and must not be
+  readable or in a format that is easily decodable. You need to encrypt the
+  passwords that are stored in the web.config file. Which command-line tool
+  should you use?
+
+* ^Aspnet_regiis.exe
 
 
 
