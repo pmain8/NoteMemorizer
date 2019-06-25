@@ -11,6 +11,7 @@ namespace NoteMemorizer
         static void Main(string[] args) {
 
             bool playAgain;
+            int numQuestions;
             do {
                 printTitle();
                 Tester t;
@@ -26,10 +27,11 @@ namespace NoteMemorizer
                     }
                 } while (!foundFile);
 
+                numQuestions = askHowManyQuestions(t);
 
                 printInstructions();
 
-                while (t.exam.getNextQuestion() != false) {
+                while (t.exam.asked < numQuestions && t.exam.getNextQuestion() != false) {
                     askQuestion(t);
                 }
 
@@ -80,7 +82,7 @@ namespace NoteMemorizer
             Console.WriteLine($"Section: {t.exam.currentSection.topic}");
             Console.WriteLine($"\t{t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()} left");
             Console.WriteLine();
-            Console.WriteLine($"Question {t.exam.asked} out of {t.exam.totalQuestions}: ");
+            Console.WriteLine($"Question {t.exam.asked} out of {t.numQuestionsDesired}: ");
             Console.WriteLine();
             Console.WriteLine(t.exam.currentQuestion.processedQuestion);
             Console.ReadLine();
@@ -146,6 +148,33 @@ namespace NoteMemorizer
             return userInput;
         }
 
+        public static int askHowManyQuestions(Tester t) {
+            Console.Clear();
+            printTitle();
+            Console.WriteLine();
+            Console.WriteLine($"This test contains {t.exam.totalQuestions} questions.");
+            Console.WriteLine($"How many would you like to learn?");
+            Console.WriteLine($"\t* Enter '0' for all");
+            Console.WriteLine($"\t* Otherwise provide how many");
+            Console.WriteLine();
+            int num = t.exam.totalQuestions; // default
+            string userInput = null;
+            bool parseSuccess = false;
+            do {
+                Console.WriteLine();
+                Console.Write("Your choice: ");
+                userInput = Console.ReadLine();
+                parseSuccess = int.TryParse(userInput, out num);
+            } while (string.IsNullOrWhiteSpace(userInput) || !parseSuccess || (num > t.exam.totalQuestions) || (num < 0) );
+
+            if (num <= 0)
+                num = t.exam.totalQuestions;
+
+            t.numQuestionsDesired = num;
+
+            return num;
+        }
+
         public static void askType(Tester t) {
             bool goodKey;
             string key;
@@ -186,6 +215,8 @@ namespace NoteMemorizer
         const string KEYWORD_SYMBOL = "^";
 
         public Exam exam = new Exam();
+
+        public int numQuestionsDesired { get; set; }
 
         public bool isSymbol(string word)
         {
