@@ -17,9 +17,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="noteFiles\70486.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Remove="noteFiles\70486.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="noteFiles\aspnetCert.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
