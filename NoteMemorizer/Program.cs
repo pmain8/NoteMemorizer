@@ -79,8 +79,7 @@ namespace NoteMemorizer
             Console.Clear();
             printTitle();
             string trimmedSectionName = (t.exam.currentSection.topic).Replace(Tester.TOPIC_SYMBOL, "");
-            Console.WriteLine($"\tSECTION: {trimmedSectionName}");
-            Console.WriteLine($"\t\t[{t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()} left]");
+            Console.WriteLine($"\tSECTION: {trimmedSectionName} [Question {t.exam.currentSection.howManyTotal() - t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()}]");
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine($"Question {t.exam.asked} out of {t.numQuestionsDesired}: ");
