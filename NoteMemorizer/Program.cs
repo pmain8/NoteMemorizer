@@ -8,6 +8,16 @@ namespace NoteMemorizer
 {
     class Program
     {
+
+
+        public enum keyCommand
+        {
+            FORWARD_ONE = 0,
+            BACKWARD_ONE,
+            NEXT,
+            ESCAPE
+        }
+
         static void Main(string[] args) {
 
             bool playAgain;
@@ -31,11 +41,29 @@ namespace NoteMemorizer
 
                 printInstructions();
 
-                while (t.exam.asked < numQuestions && t.exam.getNextQuestion() != false) {
-                    askQuestion(t);
-                }
+                keyCommand command;
+                while (t.exam.asked < numQuestions && t.exam.GetNewQuestion() != false) {
+                    do
+                    {
+                        command = askQuestion(t);
+                        if (command == keyCommand.BACKWARD_ONE)
+                            t.Back();
+                        else if (command == keyCommand.FORWARD_ONE)
+                            t.Forward();
+                        else if (command == keyCommand.NEXT && t.HasForwardQuestions())
+                        {
+                            t.Forward();
+                            command = keyCommand.FORWARD_ONE;
+                        }
+                    } while (command != keyCommand.ESCAPE && command != keyCommand.NEXT);
 
+
+                    // End prematurely
+                    if (command == keyCommand.ESCAPE)
+                        break;
+                }
                 playAgain = testComplete(t);
+
             } while (playAgain);
         }
 
@@ -75,25 +103,61 @@ namespace NoteMemorizer
             Console.ReadLine();
         }
 
-        public static void askQuestion(Tester t) {
+        public static keyCommand askQuestion(Tester t) {
+
+            // TITLE
             Console.Clear();
             printTitle();
+
+            // HEADER
             string trimmedSectionName = (t.exam.currentSection.topic).Replace(Tester.TOPIC_SYMBOL, "");
-            Console.WriteLine($"\tSECTION: {trimmedSectionName} [Question {t.exam.currentSection.howManyTotal() - t.exam.currentSection.howManyLeft()} out of {t.exam.currentSection.howManyTotal()}]");
+            int sectionNum = t.exam.currentSection.howManyTotal() - t.exam.currentSection.howManyLeft();
+            Console.WriteLine($"\tSECTION: {trimmedSectionName} [Question {sectionNum} out of {t.exam.currentSection.howManyTotal()}]");
+            if (t.HasPreviousQuestions())
+                Console.Write("\t<<----- [previous]    ");
+            if (t.HasForwardQuestions())
+                Console.Write("\t[forward] ----->>");
+            Console.WriteLine();
+
+            // QUESTION
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine($"Question {t.exam.asked} out of {t.numQuestionsDesired}: ");
+            int questionNum = t.exam.asked - t.exam.NumForwardQuestions();
+            Console.WriteLine($"Question {questionNum} out of {t.numQuestionsDesired}: ");
             Console.WriteLine();
             string trimmedQuestion = (t.exam.currentQuestion.processedQuestion).Replace(Tester.KEYWORD_SYMBOL, "");
             Console.WriteLine(trimmedQuestion);
-            Console.ReadLine();
-            Console.WriteLine("[ANSWER]:");
+            Console.WriteLine("[Press enter to reveal the answer]");
+
+
+            // REVEAL ANSWER?
             Console.WriteLine();
-            string trimmedAnswer = (t.exam.currentQuestion.answer).Replace(Tester.KEYWORD_SYMBOL, "");
-            Console.WriteLine(trimmedAnswer);
-            Console.WriteLine();
-            Console.WriteLine("[Press enter to continue]");
-            Console.ReadLine();
+            var key = Console.ReadKey(false).Key;
+            if (key != ConsoleKey.LeftArrow && key != ConsoleKey.RightArrow)
+            {
+                Console.WriteLine();
+                Console.WriteLine("[ANSWER]:");
+                Console.WriteLine();
+                string trimmedAnswer = (t.exam.currentQuestion.answer).Replace(Tester.KEYWORD_SYMBOL, "");
+                Console.WriteLine(trimmedAnswer);
+                Console.WriteLine();
+                Console.WriteLine("[Press enter to continue]");
+                Console.WriteLine();
+                key = Console.ReadKey(false).Key;
+            }
+
+            // KEYBOARD LOGIC
+            if (key == ConsoleKey.LeftArrow)
+                return keyCommand.BACKWARD_ONE;
+
+            else if (key == ConsoleKey.RightArrow)
+                return keyCommand.FORWARD_ONE;
+
+            else if (key == ConsoleKey.Escape)
+                return keyCommand.ESCAPE;
+
+            else
+                return keyCommand.NEXT;
         }
 
         public static bool testComplete(Tester t) {
@@ -217,6 +281,46 @@ namespace NoteMemorizer
         public static string ANSWER_SYMBOL = "*";
         public static string TOPIC_SYMBOL = "~";
         public static string KEYWORD_SYMBOL = "^";
+
+        public bool HasPreviousQuestions()
+        {
+            return exam.HasPreviousQuestions();
+        }
+
+        public bool HasForwardQuestions()
+        {
+            return exam.HasForwardQuestions();
+        }
+
+        public void SkipAllForwardQuestions()
+        {
+            while (exam.HasForwardQuestions())
+            {
+                exam.Forward();
+            }
+        }
+
+        public bool Back()
+        {
+            if (exam.HasPreviousQuestions())
+            {
+                exam.Back();
+                return true;
+            }
+            else
+                return false;
+        }
+
+        public bool Forward()
+        {
+            if (exam.HasForwardQuestions())
+            {
+                exam.Forward();
+                return true;
+            }
+            else
+                return false;
+        }
 
         public Exam exam = new Exam();
 
@@ -522,6 +626,70 @@ namespace NoteMemorizer
             public Section currentSection { get; set; }
             public int totalQuestions { get; set; }
 
+            Stack<Question> prevQuestions = new Stack<Question>();
+            Stack<Question> forwardQuestions = new Stack<Question>();
+
+            public bool HasForwardQuestions()
+            {
+                return forwardQuestions.Count > 0;
+            }
+
+            public bool HasPreviousQuestions()
+            {
+                return prevQuestions.Count > 0;
+            }
+
+            private Question _getPreviousQuestion()
+            {
+                if (prevQuestions.Count > 0)
+                    return prevQuestions.Pop();
+                else
+                    return null;
+            }
+
+            private Question _getForwardOrCurrentQuestion()
+            {
+                if (forwardQuestions.Count > 0)
+                    return forwardQuestions.Pop();
+                else
+                    return null;
+            }
+
+            public bool Back()
+            {
+                Question pq = _getPreviousQuestion();
+                if (pq != null)
+                {
+                    forwardQuestions.Push(currentQuestion);
+                    currentQuestion = pq;
+                    return true;
+                }
+
+                // We went all the way back
+                else
+                    return false;
+            }
+
+            public bool Forward()
+            {
+                Question fq = _getForwardOrCurrentQuestion();
+                if (fq != null)
+                {
+                    prevQuestions.Push(currentQuestion);
+                    currentQuestion = fq;
+                    return true;
+                }
+
+                // No more questions
+                else
+                    return false;
+            }
+
+            public int NumForwardQuestions()
+            {
+                return forwardQuestions.Count();
+            }
+
             public int asked { get; set; }
             public testType examType { get; set; }
 
@@ -549,7 +717,7 @@ namespace NoteMemorizer
                 totalQuestions++;
             }
 
-            public Question next()
+            public Question _getNewQuestion()
             {
                 if (sections.Count <= 0) { return null; }
                 // pick random section (that has questions still)
@@ -569,9 +737,13 @@ namespace NoteMemorizer
                 return cur;
             }
 
-            public bool getNextQuestion()
+            public bool GetNewQuestion()
             {
-                Question q = next();
+                // store previous question, if existed:
+                if (currentQuestion != null)
+                    prevQuestions.Push(currentQuestion); // add to previous questions
+
+                Question q = _getNewQuestion();
                 if (q == null) { return false; }
                 currentQuestion = q;
                 return true;
