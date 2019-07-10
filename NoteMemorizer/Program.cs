@@ -15,7 +15,8 @@ namespace NoteMemorizer
             FORWARD_ONE = 0,
             BACKWARD_ONE,
             NEXT,
-            ESCAPE
+            ESCAPE,
+            RESTART_QUESTION
         }
 
         static void Main(string[] args) {
@@ -45,16 +46,26 @@ namespace NoteMemorizer
                 while (t.exam.asked < numQuestions && t.exam.GetNewQuestion() != false) {
                     do
                     {
+                        // Ask the question:
                         command = askQuestion(t);
+
+                        // Pressed left arrow:
                         if (command == keyCommand.BACKWARD_ONE)
                             t.Back();
+
+                        // Pressed forward arrow:
                         else if (command == keyCommand.FORWARD_ONE)
                             t.Forward();
+
+                        // Pressed 'enter', but is reviewing questions in past
                         else if (command == keyCommand.NEXT && t.HasForwardQuestions())
                         {
                             t.Forward();
                             command = keyCommand.FORWARD_ONE;
                         }
+
+                        // Pressed 'left' or 'up' while looking at answer (allows restart question):
+                        else if (command == keyCommand.RESTART_QUESTION) { /* do nothing */ }
                     } while (command != keyCommand.ESCAPE && command != keyCommand.NEXT);
 
 
@@ -144,6 +155,10 @@ namespace NoteMemorizer
                 Console.WriteLine("[Press enter to continue]");
                 Console.WriteLine();
                 key = Console.ReadKey(false).Key;
+
+                // Restart question?
+                if (key == ConsoleKey.LeftArrow || key == ConsoleKey.UpArrow)
+                    return (keyCommand.RESTART_QUESTION);
             }
 
             // KEYBOARD LOGIC
