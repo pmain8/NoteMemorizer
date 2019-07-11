@@ -521,7 +521,7 @@ namespace NoteMemorizer
                 } // end else
             }
             public string ParseKeyword(string input, testType tt) {
-                char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/' };
+                char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/', '<', '>' };
                 string[] words = input.Split(splitSymbols);
                 StringBuilder output = new StringBuilder(input);
                 foreach (string curWord in words)
