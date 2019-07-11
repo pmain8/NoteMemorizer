@@ -100,10 +100,9 @@ namespace NoteMemorizer
         }
 
         public static void printTitle() {
-            Console.WriteLine("*---------------------------------------------------------*");
-            Console.WriteLine("|   Note Memorizer, a James Cameron Abreu project         |");
-            Console.WriteLine("|   Copyright © 2019 - James Cameron Abreu Software Inc.  |");
-            Console.WriteLine("*---------------------------------------------------------*");
+            Console.WriteLine("*----------------------------------------------------------------*");
+            Console.WriteLine("| Note Memorizer | An educational project by James Cameron Abreu |");
+            Console.WriteLine("*----------------------------------------------------------------*");
             Console.WriteLine();
         }
 
@@ -123,7 +122,7 @@ namespace NoteMemorizer
             // HEADER
             string trimmedSectionName = (t.exam.currentSection.topic).Replace(Tester.TOPIC_SYMBOL, "");
             int sectionNum = t.exam.currentSection.howManyTotal() - t.exam.currentSection.howManyLeft();
-            Console.WriteLine($"\tSECTION: {trimmedSectionName} [Question {sectionNum} out of {t.exam.currentSection.howManyTotal()}]");
+            Console.WriteLine($"\tSECTION: {trimmedSectionName} [Asked {sectionNum} out of {t.exam.currentSection.howManyTotal()} questions so far]");
             if (t.HasPreviousQuestions())
                 Console.Write("\t<<----- [previous]    ");
             if (t.HasForwardQuestions())
@@ -633,14 +632,17 @@ namespace NoteMemorizer
 
         public class Exam
         {
-            public Dictionary<string, Section> sections = new Dictionary<string, Section>();
-            public Random r = new Random();
-            public Question currentQuestion { get; set; }
-            public Section currentSection { get; set; }
-            public int totalQuestions { get; set; }
+            public Random randomGenerator = new Random();
 
+            public Question currentQuestion { get; set; }
             Stack<Question> prevQuestions = new Stack<Question>();
             Stack<Question> forwardQuestions = new Stack<Question>();
+            public int totalQuestions { get; set; }
+
+            public Dictionary<string, Section> sections = new Dictionary<string, Section>();
+            public Section currentSection { get; set; }
+            Stack<Section> prevSections = new Stack<Section>();
+            Stack<Section> forwardSections = new Stack<Section>();
 
             public bool HasForwardQuestions()
             {
@@ -659,6 +661,15 @@ namespace NoteMemorizer
                 else
                     return null;
             }
+            private Section _getPreviousSection()
+            {
+                if (prevSections.Count > 0)
+                    return prevSections.Pop();
+                else
+                    return null;
+            }
+
+
 
             private Question _getForwardOrCurrentQuestion()
             {
@@ -668,13 +679,25 @@ namespace NoteMemorizer
                     return null;
             }
 
+            private Section _getForwardOrCurrentSection()
+            {
+                if (forwardSections.Count > 0)
+                    return forwardSections.Pop();
+                else
+                    return null;
+            }
+
+
             public bool Back()
             {
                 Question pq = _getPreviousQuestion();
+                Section ps = _getPreviousSection();
                 if (pq != null)
                 {
                     forwardQuestions.Push(currentQuestion);
                     currentQuestion = pq;
+                    forwardSections.Push(currentSection);
+                    currentSection = ps;
                     return true;
                 }
 
@@ -686,10 +709,13 @@ namespace NoteMemorizer
             public bool Forward()
             {
                 Question fq = _getForwardOrCurrentQuestion();
+                Section fs = _getForwardOrCurrentSection();
                 if (fq != null)
                 {
                     prevQuestions.Push(currentQuestion);
                     currentQuestion = fq;
+                    prevSections.Push(currentSection);
+                    currentSection = fs;
                     return true;
                 }
 
@@ -736,7 +762,7 @@ namespace NoteMemorizer
                 // pick random section (that has questions still)
                 Question cur = null;
                 while (cur == null && sections.Count > 0) {
-                    var i = r.Next(sections.Count);
+                    var i = randomGenerator.Next(sections.Count);
                     string t = sections.ElementAt(i).Key;
                     // Remove section if it doesn't have any questions:
                     if (!sections[t].hasQuestions()) { sections.Remove(t); }
@@ -754,7 +780,10 @@ namespace NoteMemorizer
             {
                 // store previous question, if existed:
                 if (currentQuestion != null)
+                {
                     prevQuestions.Push(currentQuestion); // add to previous questions
+                    prevSections.Push(currentSection); // add to previous section
+                }
 
                 Question q = _getNewQuestion();
                 if (q == null) { return false; }
