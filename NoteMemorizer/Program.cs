@@ -144,6 +144,10 @@ namespace NoteMemorizer
             // REVEAL ANSWER?
             Console.WriteLine();
             var key = Console.ReadKey(false).Key;
+
+            if (key == ConsoleKey.Escape)
+                return keyCommand.ESCAPE;
+
             if (key != ConsoleKey.LeftArrow && key != ConsoleKey.RightArrow)
             {
                 Console.WriteLine();
@@ -157,7 +161,7 @@ namespace NoteMemorizer
                 key = Console.ReadKey(false).Key;
 
                 // Restart question?
-                if (key == ConsoleKey.LeftArrow || key == ConsoleKey.UpArrow)
+                if (key == ConsoleKey.UpArrow)
                     return (keyCommand.RESTART_QUESTION);
             }
 
