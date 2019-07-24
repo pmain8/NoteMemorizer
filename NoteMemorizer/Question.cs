@@ -21,6 +21,8 @@ namespace NoteMemorizer
         public string processedQuestion { get; set; }
         const char REPLACE_CHAR = '-';
 
+        public int QuestionNumber { get; set; }
+
         public bool IsReviewQuestion;
         public void SetAsReviewQuestion() {
             IsReviewQuestion = true;
@@ -75,7 +77,7 @@ namespace NoteMemorizer
             if (input.Length < 10) { return input; }
             else
             {
-                char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/' };
+                char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/', '<', '>' };
                 string[] words = input.Split(splitSymbols);
                 if (words.Length < 2) { return input; }
                 StringBuilder output = new StringBuilder(input);

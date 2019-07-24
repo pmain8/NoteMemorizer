@@ -10,10 +10,13 @@ namespace NoteMemorizer
     public class Exam
     {
         public Dictionary<string, Section> sections = new Dictionary<string, Section>();
-        public Random r = new Random();
+        public Random randomGenerator = new Random();
         public Question currentQuestion { get; set; }
         public Section currentSection { get; set; }
         public int totalQuestions { get; set; }
+
+        Stack<Section> prevSections = new Stack<Section>();
+        Stack<Section> forwardSections = new Stack<Section>();
 
         Stack<Question> prevQuestions = new Stack<Question>();
         Stack<Question> forwardQuestions = new Stack<Question>();
@@ -26,6 +29,22 @@ namespace NoteMemorizer
 
         public int NumberQuestionsForReview() {
             return reviewQuestions.Count();
+        }
+
+        private Section _getPreviousSection()
+        {
+            if (prevSections.Count > 0)
+                return prevSections.Pop();
+            else
+                return null;
+        }
+
+        private Section _getForwardOrCurrentSection()
+        {
+            if (forwardSections.Count > 0)
+                return forwardSections.Pop();
+            else
+                return null;
         }
 
 
@@ -80,10 +99,13 @@ namespace NoteMemorizer
         public bool Back()
         {
             Question pq = _getPreviousQuestion();
+            Section ps = _getPreviousSection();
             if (pq != null)
             {
                 forwardQuestions.Push(currentQuestion);
                 currentQuestion = pq;
+                forwardSections.Push(currentSection);
+                currentSection = ps;
                 return true;
             }
 
@@ -96,10 +118,13 @@ namespace NoteMemorizer
         {
 
             Question fq = _getForwardOrCurrentQuestion();
+            Section fs = _getForwardOrCurrentSection();
             if (fq != null)
             {
                 prevQuestions.Push(currentQuestion);
                 currentQuestion = fq;
+                prevSections.Push(currentSection);
+                currentSection = fs;
                 return true;
             }
 
@@ -150,7 +175,7 @@ namespace NoteMemorizer
             // pick random section (that has questions still)
             Question cur = null;
             while (cur == null && sections.Count > 0) {
-                var i = r.Next(sections.Count);
+                var i = randomGenerator.Next(sections.Count);
                 string t = sections.ElementAt(i).Key;
                 // Remove section if it doesn't have any questions:
                 if (!sections[t].hasQuestions()) { sections.Remove(t); }
@@ -160,7 +185,12 @@ namespace NoteMemorizer
                 }
             }
 
-            asked++;
+            if (cur != null)
+            {
+                asked++;
+                cur.QuestionNumber = asked;
+            }
+
             return cur;
         }
 
@@ -168,13 +198,17 @@ namespace NoteMemorizer
         {
             // store previous question, if existed:
             if (currentQuestion != null)
+            {
                 prevQuestions.Push(currentQuestion); // add to previous questions
+                prevSections.Push(currentSection); // add to previous section
+            }
+
 
 
             // Check for review questions:
             Question q;
             double chancePerc = 100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession) + chanceIncreaser;
-            int random = r.Next(0, 100);
+            int random = randomGenerator.Next(0, 100);
 
             /*
             Console.WriteLine($"chanceIncreaser: {chanceIncreaser}");
