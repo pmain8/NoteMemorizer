@@ -48,7 +48,10 @@ namespace NoteMemorizer
                 printInstructions();
 
                 keyCommand command;
-                while ((t.exam.asked < numQuestions && t.exam.GetNewQuestion() != false) || t.exam.NumberQuestionsForReview() <= 0)
+                bool SolvedEnough = false;
+                bool newQuestionExists = t.exam.GetNewQuestion(); // first question
+                bool stillHasReviewQuestions = false;
+                do
                 {
                     do
                     {
@@ -79,7 +82,15 @@ namespace NoteMemorizer
                     // End prematurely
                     if (command == keyCommand.ESCAPE)
                         break;
-                }
+
+
+                    SolvedEnough = (t.exam.asked >= numQuestions);
+                    newQuestionExists = t.exam.GetNewQuestion();
+                    stillHasReviewQuestions = t.exam.NumberQuestionsForReview() > 0;
+                } while (!SolvedEnough || newQuestionExists || stillHasReviewQuestions);
+
+
+
                 playAgain = testComplete(t);
 
             } while (playAgain);

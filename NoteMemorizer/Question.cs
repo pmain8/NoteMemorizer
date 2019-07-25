@@ -74,29 +74,25 @@ namespace NoteMemorizer
             } // end else
         }
         public string ParseKeyword(string input, TestTaker.testType tt) {
-            if (input.Length < 10) { return input; }
-            else
+            char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/', '<', '>' };
+            string[] words = input.Split(splitSymbols);
+            if (words.Length < 2) { return input; }
+            StringBuilder output = new StringBuilder(input);
+            foreach (string curWord in words)
             {
-                char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/', '<', '>' };
-                string[] words = input.Split(splitSymbols);
-                if (words.Length < 2) { return input; }
-                StringBuilder output = new StringBuilder(input);
-                foreach (string curWord in words)
+                if (!curWord.Contains(REPLACE_CHAR) && curWord.Length > 1 && curWord.Contains(TestTaker.KEYWORD_SYMBOL))
                 {
-                    if (!curWord.Contains(REPLACE_CHAR) && curWord.Length > 1 && curWord.Contains(TestTaker.KEYWORD_SYMBOL))
-                    {
-                        if (tt == TestTaker.testType.kewordsFull)
-                            output.Replace(curWord, fullReplace(curWord));
-                        else if (tt == TestTaker.testType.keywordsPartial)
-                            output.Replace(curWord, partialReplace(curWord));
-                        else if (tt == TestTaker.testType.keywordsFirstLetters)
-                            output.Replace(curWord, firstFewLettersOnly(curWord));
-                        else
-                            output.Replace(curWord, "ERROR 101");
-                    }
+                    if (tt == TestTaker.testType.kewordsFull)
+                        output.Replace(curWord, fullReplace(curWord));
+                    else if (tt == TestTaker.testType.keywordsPartial)
+                        output.Replace(curWord, partialReplace(curWord));
+                    else if (tt == TestTaker.testType.keywordsFirstLetters)
+                        output.Replace(curWord, firstFewLettersOnly(curWord));
+                    else
+                        output.Replace(curWord, "ERROR 101");
                 }
-                return output.ToString();
-            } // end else
+            }
+            return output.ToString();
         }
 
 
@@ -131,10 +127,9 @@ namespace NoteMemorizer
         }
 
         public string firstFewLettersOnly(string input) {
-            if (input.Length <= 3) return input;
-            int startPos = (int)(input.Length / 3);
+            int startPos = (input.Length < 3) ? 0 : (int)(input.Length / 3);
             StringBuilder output = new StringBuilder(input);
-            for (int i = 1 + startPos; i < input.Length; i++) {
+            for (int i = startPos; i < input.Length; i++) {
                 if (output[i] != '\n') // don't replace newline chars
                     output[i] = REPLACE_CHAR;
             }

@@ -207,7 +207,7 @@ namespace NoteMemorizer
 
             // Check for review questions:
             Question q;
-            double chancePerc = 100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession) + chanceIncreaser;
+            double chancePerc = 100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession)/3 + chanceIncreaser;
             int random = randomGenerator.Next(0, 100);
 
             /*
@@ -218,8 +218,11 @@ namespace NoteMemorizer
             Console.ReadLine();
             */
 
-            if (reviewQuestions.Count() > 0 && random < chancePerc) {
+            if ((QuestionsCompleted >= NumberQuestionsThisSession) || reviewQuestions.Count() > 0 && random < chancePerc) {
                 q = reviewQuestions.Grab();
+                if (q == null)
+                    return false;
+
                 q.SetAsReviewQuestion();
                 chanceIncreaser = 0.0; // reset
             }
@@ -228,7 +231,7 @@ namespace NoteMemorizer
 
                 // Increase chance of getting review question each time NOT shown
                 if (reviewQuestions.Count() > 0) {
-                    chanceIncreaser += 15.0;
+                    chanceIncreaser += 5.0;
                 }
             }
 
