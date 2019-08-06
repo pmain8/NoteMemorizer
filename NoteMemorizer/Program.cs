@@ -147,9 +147,9 @@ namespace NoteMemorizer
             // REVIEW QUESTION INDICATOR
             if (t.exam.currentQuestion.IsReviewQuestion)
             {
-                Console.WriteLine("                 *---------------------*");
-                Console.WriteLine("                 | ~[REVIEW QUESTION]~ |");
-                Console.WriteLine("                 *---------------------*");
+                WriteColor("                 *---------------------*\n", ConsoleColor.Magenta);
+                WriteColor("                 | ~[REVIEW QUESTION]~ |\n", ConsoleColor.Magenta);
+                WriteColor("                 *---------------------*\n", ConsoleColor.Magenta);
                 Console.WriteLine();
             }
 
@@ -176,7 +176,12 @@ namespace NoteMemorizer
 
             // Questions for Review:
             Console.Write("                      ");
-            Console.Write($"Questions for Review: [{t.exam.NumberQuestionsForReview()}]\n");
+            Console.Write($"Questions for Review: [");
+            if (t.exam.NumberQuestionsForReview() > 0)
+                WriteColor(t.exam.NumberQuestionsForReview().ToString(), ConsoleColor.Magenta);
+            else
+                Console.Write(t.exam.NumberQuestionsForReview().ToString());
+            Console.Write("]\n");
 
             // QUESTION
             Console.WriteLine();
