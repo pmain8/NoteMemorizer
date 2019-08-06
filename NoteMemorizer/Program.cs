@@ -156,7 +156,10 @@ namespace NoteMemorizer
             // HEADER
             string trimmedSectionName = (t.exam.currentSection.topic).Replace(TestTaker.TOPIC_SYMBOL, "");
             int sectionNum = t.exam.currentSection.howManyTotal() - t.exam.currentSection.howManyLeft();
-            Console.WriteLine($"SECTION: {trimmedSectionName} [Question {sectionNum} out of {t.exam.currentSection.howManyTotal()}]");
+            Console.Write($"SECTION: ");
+            WriteColor(trimmedSectionName, ConsoleColor.White);
+            Console.Write($" [Question {sectionNum} out of {t.exam.currentSection.howManyTotal()}]");
+            Console.WriteLine();
 
             // Question
             int questionNum = t.exam.currentQuestion.QuestionNumber;
@@ -179,8 +182,8 @@ namespace NoteMemorizer
             Console.WriteLine();
             Console.WriteLine();
             Console.WriteLine();
-            string trimmedQuestion = (t.exam.currentQuestion.processedQuestion).Replace(TestTaker.KEYWORD_SYMBOL, "");
-            Console.WriteLine(trimmedQuestion);
+            t.exam.currentQuestion.WriteSymbolColor(t.exam.currentQuestion.processedQuestion, ConsoleColor.Yellow);
+            Console.WriteLine();
             Console.WriteLine("[Press enter to continue]");
 
             // REVEAL ANSWER?
@@ -196,8 +199,8 @@ namespace NoteMemorizer
                 Console.WriteLine();
                 Console.WriteLine("[ANSWER]:");
                 Console.WriteLine();
-                string trimmedAnswer = (t.exam.currentQuestion.answer).Replace(TestTaker.KEYWORD_SYMBOL, "");
-                Console.WriteLine(trimmedAnswer);
+                t.exam.currentQuestion.WriteSymbolColor(t.exam.currentQuestion.answer, ConsoleColor.Green);
+                Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine("Press [Backspace] to review later");
                 Console.WriteLine("Press [Enter] to complete this question");
@@ -353,6 +356,13 @@ namespace NoteMemorizer
             return;
         }
 
+
+        public static void WriteColor(string phrase, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(phrase);
+            Console.ResetColor();
+        }
 
     } // end main class
 

@@ -46,6 +46,30 @@ namespace NoteMemorizer
             IsReviewQuestion = false;
         }
 
+
+        public void WriteSymbolColor(string phrase, ConsoleColor color)
+        {
+            char[] splitSymbols = {' '};
+            string[] words = phrase.Split(splitSymbols);
+
+            foreach (var word in words)
+            {
+                if (word.Contains(TestTaker.KEYWORD_SYMBOL))
+                {
+                    string removeSymbol = word.Replace(TestTaker.KEYWORD_SYMBOL, "");
+                    Console.ForegroundColor = color;
+                    Console.Write(removeSymbol);
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.Write(word);
+                }
+                Console.Write(" ");
+            }
+        }
+
+
         public string ParseFullRandom(string input) {
             if (input.Length < 10) { return input; }
             else
