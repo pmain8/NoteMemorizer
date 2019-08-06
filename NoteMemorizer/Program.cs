@@ -165,12 +165,18 @@ namespace NoteMemorizer
             int questionNum = t.exam.currentQuestion.QuestionNumber;
             string reviewIndicator = t.exam.currentQuestion.IsReviewQuestion ? "(review)" : "";
             if (t.HasPreviousQuestions())
-                Console.Write("<<--- [previous]    ");
+            {
+                Console.Write("<<--- ["); WriteColor("previous", ConsoleColor.DarkCyan); Console.Write("]    ");
+            }
             else
                 Console.Write("                      ");
+
             Console.Write($"Question {questionNum} {reviewIndicator} out of {t.GetNumQuestionsSession()}: ");
+
             if (t.HasForwardQuestions())
-                Console.Write("    [forward] --->>\n");
+            {
+                Console.Write("    ["); WriteColor("forward", ConsoleColor.DarkCyan); Console.Write("] --->>\n");
+            }
             else
                 Console.Write("\n");
 
