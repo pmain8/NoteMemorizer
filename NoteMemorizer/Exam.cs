@@ -210,15 +210,12 @@ namespace NoteMemorizer
             double chancePerc = 100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession)/3 + chanceIncreaser;
             int random = randomGenerator.Next(0, 100);
 
-            /*
-            Console.WriteLine($"chanceIncreaser: {chanceIncreaser}");
-            Console.WriteLine($"QuestionsCompleted: {QuestionsCompleted}, totalQuestions: {NumberQuestionsThisSession}");
-            Console.WriteLine($"chancePerc: {chancePerc}, random rolled: {random}");
+            Console.WriteLine($"Chance Increaser: {chanceIncreaser}");
+            Console.WriteLine($"Rolled: {random} / {(int)chancePerc} for Review Question next");
             Console.WriteLine("Press enter to continue");
             Console.ReadLine();
-            */
 
-            if ((QuestionsCompleted >= NumberQuestionsThisSession) || reviewQuestions.Count() > 0 && random < chancePerc) {
+            if ((asked >= NumberQuestionsThisSession) || (reviewQuestions.Count() > 0 && random > chancePerc)) {
                 q = reviewQuestions.Grab();
                 if (q == null)
                     return false;

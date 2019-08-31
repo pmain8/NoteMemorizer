@@ -19,7 +19,10 @@ namespace NoteMemorizer
         public Random r = new Random();
         public string answer { get; set; }
         public string processedQuestion { get; set; }
-        const char REPLACE_CHAR = '-';
+        const char REPLACE_CHAR = '_';
+
+
+        public char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/', '<', '>', '-' };
 
         public int QuestionNumber { get; set; }
 
@@ -74,8 +77,7 @@ namespace NoteMemorizer
             if (input.Length < 10) { return input; }
             else
             {
-                char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/' };
-                string[] words = input.Split(splitSymbols);
+                string[] words = input.Split(this.splitSymbols);
                 if (words.Length < 2) { return input; }
                 StringBuilder output = new StringBuilder(input);
                 int amount = (int)(words.Length * 0.75);
@@ -98,8 +100,7 @@ namespace NoteMemorizer
             } // end else
         }
         public string ParseKeyword(string input, TestTaker.testType tt) {
-            char[] splitSymbols = { ' ', '.', '{', '}', '(', ')', '[', ']', '"', '/', '<', '>' };
-            string[] words = input.Split(splitSymbols);
+            string[] words = input.Split(this.splitSymbols);
             if (words.Length < 2) { return input; }
             StringBuilder output = new StringBuilder(input);
             foreach (string curWord in words)
