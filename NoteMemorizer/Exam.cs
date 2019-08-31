@@ -147,7 +147,7 @@ namespace NoteMemorizer
             asked = 0;
             totalQuestions = 0;
             QuestionsCompleted = 0;
-            chanceIncreaser = 0.0;
+            chanceIncreaser = 1.0;
             NumberQuestionsThisSession = 1;
         }
 
@@ -207,28 +207,36 @@ namespace NoteMemorizer
 
             // Check for review questions:
             Question q;
-            double chancePerc = 100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession)/3 + chanceIncreaser;
-            int random = randomGenerator.Next(0, 100);
+            double chancePerc = (100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession)) + chanceIncreaser + reviewQuestions.Count()*3;
+            int minimum = randomGenerator.Next(0, 100);
 
-            Console.WriteLine($"Chance Increaser: {chanceIncreaser}");
-            Console.WriteLine($"Rolled: {random} / {(int)chancePerc} for Review Question next");
-            Console.WriteLine("Press enter to continue");
-            Console.ReadLine();
+            if (reviewQuestions.Count() > 0)
+            {
+                List<string> message = new List<string>();
+                message.Add($"Chance Increaser: {chanceIncreaser}");
+                message.Add($"Rolled: {(int)chancePerc} / {minimum} for Review Question next");
+                StreamString(message.ToArray());
+            }
 
-            if ((asked >= NumberQuestionsThisSession) || (reviewQuestions.Count() > 0 && random > chancePerc)) {
+
+            if ((asked >= NumberQuestionsThisSession) || (reviewQuestions.Count() > 0 && chancePerc > minimum)) {
                 q = reviewQuestions.Grab();
                 if (q == null)
                     return false;
 
                 q.SetAsReviewQuestion();
-                chanceIncreaser = 0.0; // reset
+                chanceIncreaser = 1.0; // reset
             }
             else {
                q = _getNewQuestion();
 
                 // Increase chance of getting review question each time NOT shown
                 if (reviewQuestions.Count() > 0) {
-                    chanceIncreaser += 5.0;
+                    if (chanceIncreaser == 1.0)
+                        chanceIncreaser = 5;
+                    else { 
+                        chanceIncreaser *= 2.0;
+                    }
                 }
             }
 
@@ -237,9 +245,34 @@ namespace NoteMemorizer
             return true;
         }
 
+
+
+
+        public void StreamString(string[] lines)
+        {
+            const int CHARACTER_SPEED_MS = 10;
+            const int LINE_SPEED_MS = 40;
+            foreach (var line in lines)
+            {
+                Console.Write("\n");
+                foreach (char c in line)
+                {
+                    System.Threading.Thread.Sleep(CHARACTER_SPEED_MS);
+                    Console.Write(c);
+                }
+                System.Threading.Thread.Sleep(LINE_SPEED_MS);
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                System.Threading.Thread.Sleep(500);
+                Console.Write(".");
+            }
+            System.Threading.Thread.Sleep(500);
+        }
+
+
+
+
     }
-
-
-
-
 }

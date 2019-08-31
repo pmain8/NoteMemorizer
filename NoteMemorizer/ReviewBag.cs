@@ -35,9 +35,7 @@ namespace NoteMemorizer
         }
 
         public void Purge(Question q) {
-            while (questions.Contains(q)) {
-                questions.Remove(q);
-            }
+            questions.Remove(q);
         }
 
     }
