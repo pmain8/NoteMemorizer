@@ -207,7 +207,7 @@ namespace NoteMemorizer
 
             // Check for review questions:
             Question q;
-            double chancePerc = (100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession)) + chanceIncreaser + reviewQuestions.Count()*3;
+            double chancePerc = (100.00 * ((double)QuestionsCompleted / (double)NumberQuestionsThisSession)/2) + chanceIncreaser + reviewQuestions.Count()*3;
             int minimum = randomGenerator.Next(0, 100);
 
             if (reviewQuestions.Count() > 0)

@@ -12,7 +12,13 @@ namespace NoteMemorizer
         Random ran;
 
         public void Add(Question q) {
-          questions.Add(q);
+            if (questions.Contains(q))
+                questions.Add(q);
+            else
+            {
+                questions.Add(q);
+                questions.Add(q);
+            }
         }
 
         public ReviewBag() {
