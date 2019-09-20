@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace NoteMemorizer
 {
@@ -98,6 +99,7 @@ namespace NoteMemorizer
             try
             {
                 string[] lines = System.IO.File.ReadAllLines($@"noteFiles\{fileName}");
+                lines = lines.Select(l => l.Replace('\t', ' ')).ToArray();
                 string curSection = "~ Unsorted / Miscellaneous"; // just in case user forgets first section
                 string curQuestion = "";
                 string curAnswer = "";
